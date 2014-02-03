@@ -11,4 +11,4 @@ class.
 
 Current Toys:
 
-	* [Factors/Multiples](http://www.vrplumber.com/webtoys/1/) shows factors and multiples for the clicked number
+- [Factors/Multiples](http://www.vrplumber.com/webtoys/1/) shows factors and multiples for the clicked number
