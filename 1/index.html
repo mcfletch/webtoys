@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="NumbersApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <title>Numbers Toy</title>
+
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0;
+            font-family: "Open Sans";
+            background-color: #f0f0f0;
+        }
+        .number-block {
+            font-size: large;
+            color: black;
+            padding: 2em;
+            margin: 0;
+            width: 95%;
+        }
+        .number-row {
+            padding-top: .3em;
+        }
+        .number-block .number {
+            vertical-align: top;
+            display: inline-block;
+            width: 9.5%;
+            border-radius: 4px;
+            text-align: center;
+            *display: inline;
+        }
+        .factor {
+            background-color: #00f0f0;
+        }
+        .multiple {
+            background-color: #f0f000;
+        }
+        .number .equation {
+            font-size: .5em;
+        }
+        .number.selected {
+            background-color: black;
+            color: white;            
+        }
+        .square {
+            color: green;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="number-block" ng-controller="NumberController">
+        <div class="number-row" ng-repeat="row in rows">
+            <div class="number" 
+                ng-repeat="cell in row" ng-click="on_number(cell)" 
+                ng-class="{ selected: cell.selected, square: cell.square, multiple: cell.multiple, factor: cell.factor  }"
+            >
+                <div class="num">{{cell.number}}</div>
+                <div class="equation">{{cell.equation}}</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="./numbers.js"></script>
+  </body>
+</html>
