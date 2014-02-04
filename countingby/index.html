@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <title>Multiple Factors</title>
+    <title>Counting By</title>
 
     <style type="text/css">
         body {
@@ -19,18 +19,15 @@
             color: black;
             padding: 2em;
             margin: 0;
-            width: 95%;
         }
         .number-row {
             padding-top: .3em;
         }
         .number-block .number {
             vertical-align: top;
-            display: inline-block;
-            width: 9.5%;
             border-radius: 4px;
             text-align: center;
-            *display: inline;
+            min-width: 5em;
         }
         .factor {
             background-color: #00f0f0;
@@ -51,17 +48,19 @@
     </style>
   </head>
   <body>
-    <div class="number-block" ng-controller="NumberController">
-        <div class="number-row" ng-repeat="row in rows">
-            <div class="number" 
+    <table class="number-block" ng-controller="NumberController">
+        <tbody>
+        <tr class="number-row" ng-repeat="row in rows">
+            <td class="number" 
                 ng-repeat="cell in row" ng-click="on_number(cell)" 
                 ng-class="{ selected: cell.selected, square: cell.square, multiple: cell.multiple, factor: cell.factor  }"
             >
                 <div class="num">{{cell.number}}</div>
                 <div class="equation">{{cell.equation}}</div>
-            </div>
-        </div>
-    </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
