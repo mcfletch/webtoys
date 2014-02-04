@@ -13,3 +13,4 @@ Current Toys:
 
 - [Counting By](http://www.vrplumber.com/webtoys/countingby/) click numbers to see counting-by that number
 - [Multiple Factors](http://www.vrplumber.com/webtoys/1/) shows factors and multiples for the clicked number
+- [Polygons](http://www.vrplumber.com/webtoys/polygons/) click numbers to see polygons with that number of sides
