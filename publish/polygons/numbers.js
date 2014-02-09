@@ -3,12 +3,35 @@ var numbersApp = angular.module('NumbersApp', []);
 numbersApp.controller( 'NumberController', function( $scope ) {
     var rows = [];
     var cells = [];
+    var names = {
+        1: 'point',
+        2: 'line',
+        3: 'triangle/trigon',
+        4: 'diamond/tetragon',
+        5: 'pentagon',
+        6: 'hexagon',
+        7: 'septagon/heptagon',
+        8: 'octagon',
+        9: 'nonagon/enneagon',
+        10: 'decagon',
+        11: 'undecagon/hendecagon',
+        12: 'dodecagon',
+        13: 'tridecagon',
+        14: 'tetradecagon',
+        15: 'pendedecagon',
+        16: 'hexdecagon',
+        17: 'heptdecagon',
+        18: 'octdecagon',
+        19: 'enneadecagon',
+        20: 'icosagon'
+    };
     var row_obj, cell;
-    for (row=0; row < 5; row=row+1) {
+    for (row=0; row < 2; row=row+1) {
         row_obj = [];
         for (col=0;col < 10;col++) {
+            var number = 1 + col + (10*row)
             var cell = {
-                'number': 1 + col + (10*row),
+                'number': number,
                 'row': row,
                 'col': col,
                 'equation': ' ',
@@ -16,6 +39,7 @@ numbersApp.controller( 'NumberController', function( $scope ) {
                 'multiple': false,
                 'selected': false,
                 'factor': false,
+                'name': names[number],
                 'points': []
             };
             row_obj.push(cell);
@@ -52,4 +76,5 @@ numbersApp.controller( 'NumberController', function( $scope ) {
             $('.polygon polygon').attr( 'points', '.01,1 .01,-1 -.01,-1 -.01,1' );
         }
     };
+    $scope.on_number( cells[0] );
 });
