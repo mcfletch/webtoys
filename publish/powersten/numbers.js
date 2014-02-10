@@ -58,5 +58,5 @@ $(document).ready( function() {
             select_number( value );
         }
     });
-    select_number( 999999 );
+    select_number( 1 );
 });
