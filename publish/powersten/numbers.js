@@ -13,6 +13,7 @@ $(document).ready( function() {
         for (j=0; j<shown_digits; j++) {
             cell_object = $('<td class="block"></td>' );
             cell_object.data( 'power', shown_digits-j );
+            cell_object.addClass( 'power-'+(shown_digits-j));
             cell_object.data( 'value', 9-i );
             row_object.append( cell_object );
         }
@@ -57,5 +58,5 @@ $(document).ready( function() {
             select_number( value );
         }
     });
-    select_number( 1 );
+    select_number( 999999 );
 });
