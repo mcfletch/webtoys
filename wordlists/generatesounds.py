@@ -1,5 +1,8 @@
 #! /usr/bin/env python
-"""Script to generate .mp3 and .ogg files for a given word-list"""
+"""Script to generate .mp3 and .ogg files for a given word-list
+
+sudo aptitude install festival festvox-us1 festvox-us2 festvox-us3
+"""
 import os,sys,optparse,tempfile,subprocess
 
 def get_options():
@@ -17,6 +20,13 @@ def get_options():
         default=None, 
         metavar="DIRECTORY",
         help="Directory into which to write the .mp3 and .ogg files (default './sounds')",
+    )
+    parser.add_option( 
+        '-v','--voice', 
+        dest='voice', 
+        default='voice_us1_mbrola', 
+        metavar="VOICE",
+        help="Festival voice to use for the generation",
     )
     return parser 
 
@@ -48,15 +58,17 @@ def main(args=None):
         # TODO: validate the filename first...
         base_name = os.path.join(options.output,word )
         target_file = base_name + '.wav'
-        command = ['text2wave', '-o', target_file]
+        if os.path.exists( target_file ):
+            os.remove( target_file )
+        command = ['text2wave', '-o', target_file, '-eval', "(%s)"%(options.voice,), '-eval', '(set! hts_duration_stretch 0.1)' ]
         pipe = subprocess.Popen( command, stdin=subprocess.PIPE )
         pipe.communicate( word )
-        subprocess.check_call( [
-            'avconv', '-i', target_file, base_name+'.mp3'
-        ])
-        subprocess.check_call( [
-            'avconv', '-i', target_file, base_name+'.ogg'
-        ])
+        for to_generate in [base_name+'.mp3',base_name+'.ogg']:
+            if os.path.exists( to_generate ):
+                os.remove( to_generate )
+            subprocess.check_call( [
+                'avconv', '-i', target_file, to_generate,
+            ])
 
 if __name__ == "__main__":
     main()
