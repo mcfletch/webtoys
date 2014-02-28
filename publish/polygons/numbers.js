@@ -7,7 +7,7 @@ numbersApp.controller( 'NumberController', function( $scope ) {
         1: 'point',
         2: 'line',
         3: 'triangle/trigon',
-        4: 'diamond/tetragon',
+        4: 'square/diamond/tetragon',
         5: 'pentagon',
         6: 'hexagon',
         7: 'septagon/heptagon',
