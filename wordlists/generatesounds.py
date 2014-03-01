@@ -1,7 +1,11 @@
 #! /usr/bin/env python
 """Script to generate .mp3 and .ogg files for a given word-list
 
-sudo aptitude install festival festvox-us1 festvox-us2 festvox-us3 libav-tools
+sudo aptitude install festival festvox-us1 festvox-us2 festvox-us3
+sudo aptitude install espeak
+sudo aptitude install libav-tools
+
+espeak -ven+f4 -k5 -s150 "Click on the word 'a'"
 """
 import os,sys,optparse,tempfile,subprocess
 
@@ -62,7 +66,7 @@ def main(args=None):
             os.remove( target_file )
         command = ['text2wave', '-o', target_file, '-eval', "(%s)"%(options.voice,), '-eval', '(set! hts_duration_stretch 0.1)' ]
         pipe = subprocess.Popen( command, stdin=subprocess.PIPE )
-        pipe.communicate( word )
+        pipe.communicate( 'Click on the word: %s'%(word,) )
         for to_generate in [base_name+'.mp3',base_name+'.ogg']:
             if os.path.exists( to_generate ):
                 os.remove( to_generate )
