@@ -1,3 +1,4 @@
 *.e4?
 *.pyc
 build
+wordlists/sounds
