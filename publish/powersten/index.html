@@ -1,12 +1,34 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="NumbersApp">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <title>Powers Ten</title>
-
+{% set title = 'Powers Ten' %}
+{% extends 'master.html' %}
+{% block title %}Powers Ten{% endblock %}
+{% block content %}
+<div class="number-entry">
+    <input class="choose-number" type="number" min="1" max="999999" step="1" value="1"></input>
+</div>
+<table class="number-block">
+    <thead>
+        <tr>
+            <th colspan="1">100,000</th>
+            <th colspan="1">10,000</th>
+            <th colspan="1">1000</th>
+            <th colspan="1">100</th>
+            <th colspan="1">10</th>
+            <th colspan="1">1</th>
+        </tr>
+        
+    </thead>
+    <tbody>
+    
+    <tfoot>
+        <tr class="number-text">
+        </tr>
+    </tfoot>
+</table>
+{% endblock %}
+{% block page_scripts %}
+    <script src="./numbers.js"></script>
+{% endblock %}
+{% block page_styles %}
     <style type="text/css">
         .number-entry {
             text-align: center;
@@ -19,30 +41,6 @@
             height: 2em;
             width: 2em;
             border-radius: 4px;
-        }
-        .selected.power-1 {
-            background-color: red;
-        }
-        .selected.power-2 {
-            background-color: orange;
-        }
-        .selected.power-3 {
-            background-color: yellow;
-        }
-        .selected.power-4 {
-            background-color: green;
-        }
-        .selected.power-5 {
-            background-color: blue;
-        }
-        .selected.power-6 {
-            background-color: indigo;
-        }
-        body {
-            padding: 0;
-            margin: 0;
-            font-family: "Open Sans";
-            background-color: #f0f0f0;
         }
         .number-block {
             width: 95%;
@@ -77,32 +75,4 @@
             font-size: 72pt;
         }
     </style>
-  </head>
-  <body>
-    <div class="number-entry">
-        <input class="choose-number" type="number" min="1" max="999999" step="1" value="1"></input>
-    </div>
-    <table class="number-block">
-        <thead>
-            <tr>
-                <th colspan="1">100,000</th>
-                <th colspan="1">10,000</th>
-                <th colspan="1">1000</th>
-                <th colspan="1">100</th>
-                <th colspan="1">10</th>
-                <th colspan="1">1</th>
-            </tr>
-            
-        </thead>
-        <tbody>
-        
-        <tfoot>
-            <tr class="number-text">
-            </tr>
-        </tfoot>
-    </table>
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="./numbers.js"></script>
-  </body>
-</html>
+{% endblock %}

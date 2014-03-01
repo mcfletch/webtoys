@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href="../css/site.css" rel="stylesheet" type="text/css">
+    {% block page_styles %}
+    {% endblock %}
+    <title>Web Toys: {{title|default('Web Toys')}}</title>
+  </head>
+<body>
+{% block header %}
+<h1 class="location-bar"><a href="../">Web Toys</a> {{title|default('Web Toys')}}</h1>
+{% endblock %}
+{% block content %}
+{% endblock %}
+<div class="scripts">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    {% block page_scripts %}
+    {% endblock %}
+</div>
+</body>
+</html>

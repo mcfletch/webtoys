@@ -56,6 +56,7 @@
     </style>
   </head>
   <body>
+  {% raw %}
     <table class="number-block" ng-controller="NumberController">
         <tbody>
         <tr class="number-row" ng-repeat="row in rows">
@@ -73,5 +74,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="./numbers.js"></script>
+  {% endraw %}
   </body>
 </html>
