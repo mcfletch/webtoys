@@ -1,19 +1,38 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="NumbersApp">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <title>Polygons</title>
-
+{% set title,ngapp = 'Polygons',"NumbersApp" %}
+{% extends 'master.html' %}
+{% block content %}
+    {% raw %}
+  <body ng-controller="NumberController">
+    <div class="polygon-holder">
+    <svg class="polygon" xmlns="http://www.w3.org/2000/svg" version="1.1"
+        viewBox="-1 -1 2 2" preserveAspectRatio="xMidYMid slice">
+        <polygon fill="yellow" stroke="black" stroke-width=".01" 
+            points="0.0,1.0 0.15643446504,0.987688340595 0.309016994375,0.951056516295 0.45399049974,0.891006524188 0.587785252292,0.809016994375 0.707106781187,0.707106781187 0.809016994375,0.587785252292 0.891006524188,0.45399049974 0.951056516295,0.309016994375 0.987688340595,0.15643446504 1.0,6.12323399574e-17 0.987688340595,-0.15643446504 0.951056516295,-0.309016994375 0.891006524188,-0.45399049974 0.809016994375,-0.587785252292 0.707106781187,-0.707106781187 0.587785252292,-0.809016994375 0.45399049974,-0.891006524188 0.309016994375,-0.951056516295 0.15643446504,-0.987688340595 1.22464679915e-16,-1.0 -0.15643446504,-0.987688340595 -0.309016994375,-0.951056516295 -0.45399049974,-0.891006524188 -0.587785252292,-0.809016994375 -0.707106781187,-0.707106781187 -0.809016994375,-0.587785252292 -0.891006524188,-0.45399049974 -0.951056516295,-0.309016994375 -0.987688340595,-0.15643446504 -1.0,-1.83697019872e-16 -0.987688340595,0.15643446504 -0.951056516295,0.309016994375 -0.891006524188,0.45399049974 -0.809016994375,0.587785252292 -0.707106781187,0.707106781187 -0.587785252292,0.809016994375 -0.45399049974,0.891006524188 -0.309016994375,0.951056516295 -0.15643446504,0.987688340595" />
+    </svg>
+    <div class="name">{{selected.name}}</div>
+    </div>
+    
+    <table class="number-block" >
+        <tbody>
+        <tr class="number-row" ng-repeat="row in rows">
+            <td class="number" 
+                ng-repeat="cell in row" ng-click="on_number(cell)" 
+                ng-class="{ selected: cell.selected, square: cell.square, multiple: cell.multiple, factor: cell.factor  }"
+            >
+                <div class="num">{{cell.number}}</div>
+                <div class="equation">{{cell.equation}}</div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+  {% endraw %}
+{% endblock %}
+{% block page_scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
+    <script src="./numbers.js"></script>
+{% endblock %}
+{% block page_style %}
     <style type="text/css">
-        body {
-            padding: 0;
-            margin: 0;
-            font-family: "Open Sans";
-            background-color: #f0f0f0;
-        }
         .polygon {
             padding: 2em;
             width: 300px;
@@ -53,35 +72,4 @@
             color: green;
         }
     </style>
-  </head>
-  {% raw %}
-  <body ng-controller="NumberController">
-    <div class="polygon-holder">
-    <svg class="polygon" xmlns="http://www.w3.org/2000/svg" version="1.1"
-        viewBox="-1 -1 2 2" preserveAspectRatio="xMidYMid slice">
-        <polygon fill="yellow" stroke="black" stroke-width=".01" 
-            points="0.0,1.0 0.15643446504,0.987688340595 0.309016994375,0.951056516295 0.45399049974,0.891006524188 0.587785252292,0.809016994375 0.707106781187,0.707106781187 0.809016994375,0.587785252292 0.891006524188,0.45399049974 0.951056516295,0.309016994375 0.987688340595,0.15643446504 1.0,6.12323399574e-17 0.987688340595,-0.15643446504 0.951056516295,-0.309016994375 0.891006524188,-0.45399049974 0.809016994375,-0.587785252292 0.707106781187,-0.707106781187 0.587785252292,-0.809016994375 0.45399049974,-0.891006524188 0.309016994375,-0.951056516295 0.15643446504,-0.987688340595 1.22464679915e-16,-1.0 -0.15643446504,-0.987688340595 -0.309016994375,-0.951056516295 -0.45399049974,-0.891006524188 -0.587785252292,-0.809016994375 -0.707106781187,-0.707106781187 -0.809016994375,-0.587785252292 -0.891006524188,-0.45399049974 -0.951056516295,-0.309016994375 -0.987688340595,-0.15643446504 -1.0,-1.83697019872e-16 -0.987688340595,0.15643446504 -0.951056516295,0.309016994375 -0.891006524188,0.45399049974 -0.809016994375,0.587785252292 -0.707106781187,0.707106781187 -0.587785252292,0.809016994375 -0.45399049974,0.891006524188 -0.309016994375,0.951056516295 -0.15643446504,0.987688340595" />
-    </svg>
-    <div class="name">{{selected.name}}</div>
-    </div>
-    
-    <table class="number-block" >
-        <tbody>
-        <tr class="number-row" ng-repeat="row in rows">
-            <td class="number" 
-                ng-repeat="cell in row" ng-click="on_number(cell)" 
-                ng-class="{ selected: cell.selected, square: cell.square, multiple: cell.multiple, factor: cell.factor  }"
-            >
-                <div class="num">{{cell.number}}</div>
-                <div class="equation">{{cell.equation}}</div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="./numbers.js"></script>
-  </body>
-  {% endraw %}
-</html>
+{% endblock %}
