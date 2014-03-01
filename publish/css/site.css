@@ -11,7 +11,7 @@ body {
     position: relative;
     top: -30px;
     line-height: 30px;
-    font-size: 25px;
+    font-size: 20px;
     padding-top: 1px;
     padding-bottom: 1px;
     padding-left: 3px;
@@ -31,6 +31,12 @@ a {
 a:hover {
     color: cyan;
 }
+.location-bar a {
+    color: cyan;
+}
+.location-bar a:hover {
+    color: white;
+}
 
 .selected.power-1 {
     background-color: red;
@@ -49,4 +55,23 @@ a:hover {
 }
 .selected.power-6 {
     background-color: indigo;
+}
+
+.factor {
+    background-color: yellow;
+}
+.multiple {
+    background-color: green;
+    color: white;
+}
+.number.selected {
+    background-color: red;
+    color: white;            
+}
+.multiple.square {
+    background-color: blue;
+}
+.factor.square {
+    background-color: indigo;
+    color: white;
 }

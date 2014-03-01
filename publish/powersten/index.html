@@ -1,6 +1,5 @@
 {% set title = 'Powers Ten' %}
 {% extends 'master.html' %}
-{% block title %}Powers Ten{% endblock %}
 {% block content %}
 <div class="number-entry">
     <input class="choose-number" type="number" min="1" max="999999" step="1" value="1"></input>
@@ -28,7 +27,7 @@
 {% block page_scripts %}
     <script src="./numbers.js"></script>
 {% endblock %}
-{% block page_styles %}
+{% block page_style %}
     <style type="text/css">
         .number-entry {
             text-align: center;

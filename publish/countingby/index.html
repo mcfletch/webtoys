@@ -1,61 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="NumbersApp">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <title>Counting By</title>
-
-    <style type="text/css">
-        body {
-            padding: 0;
-            margin: 0;
-            font-family: "Open Sans";
-            background-color: #f0f0f0;
-        }
-        .number-block {
-            font-size: large;
-            color: black;
-            padding: 2em;
-            margin: 0;
-            width: 95%;
-        }
-        .number-row {
-            padding-top: .3em;
-        }
-        .number-block .number {
-            vertical-align: top;
-            border-radius: 4px;
-            text-align: center;
-            min-width: 2em;
-        }
-        .number .equation {
-            font-size: .5em;
-        }
-        
-        .factor {
-            background-color: yellow;
-        }
-        .multiple {
-            background-color: green;
-            color: white;
-        }
-        .number.selected {
-            background-color: red;
-            color: white;            
-        }
-        .multiple.square {
-            background-color: blue;
-        }
-        .factor.square {
-            background-color: indigo;
-            color: white;
-        }
-        
-    </style>
-  </head>
-  <body>
+{% set title,ngapp = 'Counting By',"NumbersApp" %}
+{% extends 'master.html' %}
+{% block content %}
   {% raw %}
     <table class="number-block" ng-controller="NumberController">
         <tbody>
@@ -70,10 +15,32 @@
         </tr>
         </tbody>
     </table>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="./numbers.js"></script>
   {% endraw %}
-  </body>
-</html>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
+{% endblock %}
+{% block page_style %}
+    <style type="text/css">
+        .number-block {
+            font-size: large;
+            color: black;
+            padding: 2em;
+            margin: 0;
+            width: 95%;
+        }
+        .number-row {
+            padding-top: .3em;
+        }
+        .number-block .number {
+            vertical-align: top;
+            border-radius: 4px;
+            text-align: center;
+            min-width: 3em;
+        }
+        .number .equation {
+            font-size: .5em;
+        }
+    </style>
+{% endblock %}
+{% block page_scripts %}
+    <script src="./numbers.js"></script>
+{% endblock %}

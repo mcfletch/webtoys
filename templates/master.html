@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" {% if ngapp %}ng-app="{{ngapp}}"{% endif %}>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href="../css/site.css" rel="stylesheet" type="text/css">
-    {% block page_styles %}
+    {% block page_style %}
     {% endblock %}
     <title>Web Toys: {{title|default('Web Toys')}}</title>
   </head>
 <body>
 {% block header %}
-<h1 class="location-bar"><a href="../">Web Toys</a> {{title|default('Web Toys')}}</h1>
+<div class="location-bar"><a href="../">Web Toys</a> {{title|default('Web Toys')}}</div>
 {% endblock %}
 {% block content %}
 {% endblock %}
