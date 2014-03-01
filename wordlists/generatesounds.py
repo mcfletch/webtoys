@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 """Script to generate .mp3 and .ogg files for a given word-list
 
-sudo aptitude install festival festvox-us1 festvox-us2 festvox-us3
+sudo aptitude install festival festvox-us1 festvox-us2 festvox-us3 libav-tools
 """
 import os,sys,optparse,tempfile,subprocess
 

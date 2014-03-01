@@ -1,4 +1,5 @@
 #! /bin/bash
 
-rsync -av publish/* www.vex.net:~mcfletch/public_html/webtoys/
+./build.py
+rsync -av build/* www.vex.net:~mcfletch/public_html/webtoys/
 
