@@ -1,0 +1,47 @@
+{% set title = 'Wordlist Test' %}
+{% extends 'master.html' %}
+{% block content %}
+<div class="word-list">
+    
+</div>
+{% endblock %}
+{% block page_scripts %}
+<script src="./wordlists.json"></script>
+<script>
+$(document).ready( function() {
+    var list = $('.word-list');
+    
+    var use_ogg = (new Audio()).canPlayType("audio/ogg; codecs=vorbis");
+    
+    var play = function( word ) {
+        /* play the word, relying on pre-built sound-files in the local directory */
+        var sound,suffix;
+        if (use_ogg) {
+            suffix = '.ogg';
+        } else {
+            suffix = '.mp3';
+        }
+        sound = new Audio('sounds/'+word+suffix);
+        sound.play();
+    };
+    
+    var render_wordlist = function( wordlist ) {
+        var group = $('<ul></ul>');
+        $.map( wordlist.words, function(word) {
+            var element = $('<li></li>').text( word );
+            element.click( function( evt ) {
+                play( word );
+            });
+            group.append( element );
+        });
+        return group;
+    };
+    var render_wordlists = function( data ) {
+        $.map( data.wordlists, function( wordlist ) {
+            list.append( render_wordlist( wordlist ));
+        });
+    };
+    render_wordlists(WORDLIST);
+});
+</script>
+{% endblock %}
