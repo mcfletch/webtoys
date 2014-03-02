@@ -1,4 +1,4 @@
-{% set title = 'Wordlist Test' %}
+{% set title = 'WordList' %}
 {% extends 'master.html' %}
 {% block content %}
 <div class="word-list">
@@ -12,23 +12,33 @@ $(document).ready( function() {
     var list = $('.word-list');
     
     var use_ogg = (new Audio()).canPlayType("audio/ogg; codecs=vorbis");
+    use_ogg = false;
     
     var play = function( word ) {
         /* play the word, relying on pre-built sound-files in the local directory */
-        var sound,suffix;
+        var suffix,source;
         if (use_ogg) {
             suffix = '.ogg';
         } else {
             suffix = '.mp3';
         }
-        sound = new Audio('sounds/'+word+suffix);
-        sound.play();
+        suffix = '.wav';
+        source = 'sounds/'+word+suffix;
+        if (false) {
+            var audio = $('<audio buffer="auto"></audio>');
+            audio.attr( 'src',source); 
+            $('body').append( audio );
+        } else {
+            var node = new Audio( source );
+            node.play();
+        }
     };
     
     var render_wordlist = function( wordlist ) {
-        var group = $('<ul></ul>');
+        var group = $('<div class="word-group"></div>');
+        group.addClass( wordlist.name );
         $.map( wordlist.words, function(word) {
-            var element = $('<li></li>').text( word );
+            var element = $('<div class="vocabulary-word"></div>').text( word );
             element.click( function( evt ) {
                 play( word );
             });
@@ -44,4 +54,33 @@ $(document).ready( function() {
     render_wordlists(WORDLIST);
 });
 </script>
+{% endblock %}
+{% block page_style %}
+<style>
+    .vocabulary-word {
+        display: inline-block;
+        width: 10em;
+        text-align: center;
+        margin: 3px;
+        padding: 3px;
+        border-radius: 4px;
+    }
+    .wl-0 .vocabulary-word {
+        background-color: red;
+        color: white;
+    }
+    .wl-1 .vocabulary-word {
+        background-color: orange;
+        color: white;
+    }
+    .wl-2 .vocabulary-word {
+        background-color: green;
+        color: white;
+    }
+    .wl-3 .vocabulary-word {
+        background-color: indigo;
+        color: white;
+    }
+    
+</style>
 {% endblock %}

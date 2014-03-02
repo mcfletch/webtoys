@@ -28,9 +28,15 @@ def get_options():
     parser.add_option( 
         '-v','--voice', 
         dest='voice', 
-        default='voice_us1_mbrola', 
+        default='en-us', 
         metavar="VOICE",
-        help="Festival voice to use for the generation",
+        help="ESpeak voice to use for the generation (use espeak --voices to see list)",
+    )
+    parser.add_option(
+        '-a', '--audition',
+        dest = 'audition',
+        action = 'store_true',
+        help="Play the playlist through the speaker instead of generating sound files",
     )
     return parser 
 
@@ -61,18 +67,25 @@ def main(args=None):
     for word in words:
         # TODO: validate the filename first...
         base_name = os.path.join(options.output,word )
-        target_file = base_name + '.wav'
-        if os.path.exists( target_file ):
-            os.remove( target_file )
-        command = ['text2wave', '-o', target_file, '-eval', "(%s)"%(options.voice,), '-eval', '(set! hts_duration_stretch 0.1)' ]
-        pipe = subprocess.Popen( command, stdin=subprocess.PIPE )
-        pipe.communicate( 'Click on the word: %s'%(word,) )
-        for to_generate in [base_name+'.mp3',base_name+'.ogg']:
-            if os.path.exists( to_generate ):
-                os.remove( to_generate )
-            subprocess.check_call( [
-                'avconv', '-i', target_file, to_generate,
-            ])
+        if not options.audition:
+            target_file = base_name + '.wav'
+            if os.path.exists( target_file ):
+                os.remove( target_file )
+            command = ['espeak','-a200','-w', target_file, '-v%s'%(options.voice,), '-k5','-s150', '-z', repr(word)]
+            subprocess.check_call( command )
+            for to_generate in [base_name+'.mp3',base_name+'.ogg']:
+                if os.path.exists( to_generate ):
+                    os.remove( to_generate )
+                if to_generate.endswith( '.ogg' ):
+                    extra_args = ['-acodec','libvorbis']
+                else:
+                    extra_args = []
+                subprocess.check_call( [
+                    'avconv', '-i', target_file] + extra_args + [to_generate,
+                ])
+        else:
+            command = ['espeak','-v%s'%(options.voice,), '-k5','-s150', '-z', repr(word)]
+            subprocess.check_call( command )
 
 if __name__ == "__main__":
     main()
