@@ -11,8 +11,7 @@
 $(document).ready( function() {
     var list = $('.word-list');
     
-    var use_ogg = (new Audio()).canPlayType("audio/ogg; codecs=vorbis");
-    use_ogg = false;
+    var use_ogg = ((new Audio()).canPlayType("audio/ogg; codecs=vorbis") === 'probably');
     
     var play = function( word ) {
         /* play the word, relying on pre-built sound-files in the local directory */
@@ -22,7 +21,6 @@ $(document).ready( function() {
         } else {
             suffix = '.mp3';
         }
-        suffix = '.wav';
         source = 'sounds/'+word+suffix;
         if (false) {
             var audio = $('<audio buffer="auto"></audio>');
