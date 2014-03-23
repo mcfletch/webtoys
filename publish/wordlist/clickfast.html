@@ -1,0 +1,134 @@
+{% set title = 'Click Fast' %}
+{% extends 'master.html' %}
+{% block content %}
+<div class="count-down"></div>
+<div class="score"></div>
+<ul class="word-choices">
+    <li>...</li>
+    <li>...</li>
+    <li>...</li>
+</ul>
+{% endblock %}
+{% block page_scripts %}
+<script src="./wordlists.json"></script>
+<script src="./playword.js"></script>
+<script>
+function swap( a, i, j ) {
+    var tmp = a[i];
+    a[i] = a[j];
+    a[j] = tmp;
+    return a;
+};
+function random_index(a) {
+    return Math.round(
+        Math.random() 
+            * 
+        (a.length-.0000001) // prevent e.g. 3.5 rounding to 4
+            - .5
+    );
+}
+function random_choice(a) {
+    return a[random_index(a)];
+}
+function random_shuffle(a) { 
+    var i;
+    for ( i=0; i<a.length; i++ ) {
+        // get value from -.5 to a.length-.5
+        // Note: the distribution is slightly biased due to round 
+        // favouring even numbers, be we don't actually care...
+        swap( a, i, random_index(a) );
+    }
+    return a;
+};
+function extend(a,b) {
+    // Emulate Python's javscript extend
+    for (var i=0;i<b.length;i++){
+        a.push( b[i] );
+    }
+    return a;
+};
+$(document).ready( function() {
+    var word_choices = $('.word-choices' );
+    var score = $('.score' );
+    var count_down = $('.count-down' );
+    var list = $('.word-list');
+    
+    var game_state = {
+        score: 0,
+        attempts: 0,
+        level: 0, // index into WORDLIST
+        choices_per: 3,
+        remaining_words: [],
+        round: {
+            word: '',
+            words: [],
+            timeout: 0
+        }
+    };
+    var update_display = function( state ) {
+        score.text( ''+state.score + ' / '+state.attempts );
+    };
+    var copy_wordlist = function( state ) {
+        var source = WORDLIST.wordlists[state.level].words;
+        extend( state.remaining_words, source );
+    };
+    var start = function( state ) {
+        /* Choose 3 new words from the word-list, make one of them the chosen word */
+        var choices = [];
+        var i;
+        for (i =0;i<state.choices_per;i++) {
+            if (! state.remaining_words.length) {
+                copy_wordlist( state );
+            }
+            choices.push( state.remaining_words.pop());
+        }
+        state.round.words = choices;
+        state.word = choices[random_index(choices)];
+        word_choices.empty();
+        $.map( choices, function(choice) {
+            var li = $('<li><button></button></li>');
+            var button = li.find( 'button' );
+            button.text( choice );
+            button.click(function(evt) {
+                $.play_word( choice );
+                evt.preventDefault();
+                start(game_state);
+                return false;
+            });
+            word_choices.append( li );
+        });
+    };
+    
+    start(game_state);
+});
+</script>
+{% endblock %}
+{% block page_style %}
+<style>
+    .vocabulary-word {
+        display: inline-block;
+        width: 10em;
+        text-align: center;
+        margin: 3px;
+        padding: 3px;
+        border-radius: 4px;
+    }
+    .wl-0 .vocabulary-word {
+        background-color: red;
+        color: white;
+    }
+    .wl-1 .vocabulary-word {
+        background-color: orange;
+        color: white;
+    }
+    .wl-2 .vocabulary-word {
+        background-color: green;
+        color: white;
+    }
+    .wl-3 .vocabulary-word {
+        background-color: indigo;
+        color: white;
+    }
+    
+</style>
+{% endblock %}

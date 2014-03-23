@@ -7,38 +7,17 @@
 {% endblock %}
 {% block page_scripts %}
 <script src="./wordlists.json"></script>
+<script src="./playword.js"></script>
 <script>
 $(document).ready( function() {
     var list = $('.word-list');
-    
-    var use_ogg = ((new Audio()).canPlayType("audio/ogg; codecs=vorbis") === 'probably');
-    
-    var play = function( word ) {
-        /* play the word, relying on pre-built sound-files in the local directory */
-        var suffix,source;
-        if (use_ogg) {
-            suffix = '.ogg';
-        } else {
-            suffix = '.mp3';
-        }
-        source = 'sounds/'+word+suffix;
-        if (false) {
-            var audio = $('<audio buffer="auto"></audio>');
-            audio.attr( 'src',source); 
-            $('body').append( audio );
-        } else {
-            var node = new Audio( source );
-            node.play();
-        }
-    };
-    
     var render_wordlist = function( wordlist ) {
         var group = $('<div class="word-group"></div>');
         group.addClass( wordlist.name );
         $.map( wordlist.words, function(word) {
             var element = $('<div class="vocabulary-word"></div>').text( word );
             element.click( function( evt ) {
-                play( word );
+                $.play_word( word );
             });
             group.append( element );
         });
