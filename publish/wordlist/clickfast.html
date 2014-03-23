@@ -3,11 +3,11 @@
 {% block content %}
 <div class="count-down"></div>
 <div class="score"></div>
-<ul class="word-choices">
-    <li>...</li>
-    <li>...</li>
-    <li>...</li>
-</ul>
+<div class="controls">
+    <button class="replay-current">Replay</button>
+</div>
+<div class="word-choices">
+</div>
 {% endblock %}
 {% block page_scripts %}
 <script src="./wordlists.json"></script>
@@ -52,6 +52,7 @@ $(document).ready( function() {
     var score = $('.score' );
     var count_down = $('.count-down' );
     var list = $('.word-list');
+    var replay_current = $('.replay-current' );
     
     var game_state = {
         score: 0,
@@ -83,23 +84,37 @@ $(document).ready( function() {
             choices.push( state.remaining_words.pop());
         }
         state.round.words = choices;
-        state.word = choices[random_index(choices)];
+        state.round.word = choices[random_index(choices)];
         word_choices.empty();
         $.map( choices, function(choice) {
-            var li = $('<li><button></button></li>');
-            var button = li.find( 'button' );
+            var button = $( '<button class=".vocabulary-word"></button>' );
+            button.addClass( '.wl-'+state.level );
             button.text( choice );
             button.click(function(evt) {
-                $.play_word( choice );
+                if (choice === state.round.word) {
+                    // success case
+                    game_state.score += 1;
+                } else {
+                    // wrong-word case
+                }
+                game_state.attempts += 1;
                 evt.preventDefault();
                 start(game_state);
+                update_display( game_state );
                 return false;
             });
-            word_choices.append( li );
+            word_choices.append( button );
         });
+        $.play_word( state.round.word );
     };
     
     start(game_state);
+    update_display(game_state);
+    replay_current.click( function(evt) {
+        $.play_word( game_state.round.word );
+        evt.preventDefault();
+        return false;
+    });
 });
 </script>
 {% endblock %}
@@ -128,6 +143,17 @@ $(document).ready( function() {
     .wl-3 .vocabulary-word {
         background-color: indigo;
         color: white;
+    }
+    
+    .word-choices {
+        padding: 0;
+        margin-left: 2em;
+        margin-right: 2em;
+    }
+    .word-choices button {
+        font-size: 3em;
+        width: 20em;
+        display: inline-block;
     }
     
 </style>
