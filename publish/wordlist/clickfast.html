@@ -57,7 +57,7 @@ $(document).ready( function() {
     var game_state = {
         score: 0,
         attempts: 0,
-        level: 0, // index into WORDLIST
+        level: -1, // index into WORDLIST
         choices_per: 3,
         remaining_words: [],
         round: {
@@ -79,6 +79,9 @@ $(document).ready( function() {
         var i;
         for (i =0;i<state.choices_per;i++) {
             if (! state.remaining_words.length) {
+                word_choices.removeClass( 'wl-'+state.level );
+                state.level += 1;
+                word_choices.addClass( 'wl-'+state.level );
                 copy_wordlist( state );
             }
             choices.push( state.remaining_words.pop());
@@ -87,20 +90,35 @@ $(document).ready( function() {
         state.round.word = choices[random_index(choices)];
         word_choices.empty();
         $.map( choices, function(choice) {
-            var button = $( '<button class=".vocabulary-word"></button>' );
-            button.addClass( '.wl-'+state.level );
+            var button = $( '<button class="vocabulary-word"></button>' );
             button.text( choice );
             button.click(function(evt) {
+                var when_finished = function() {
+                    start( game_state );
+                    update_display( game_state );
+                };
                 if (choice === state.round.word) {
                     // success case
                     game_state.score += 1;
+                    button.animate( {
+                        'backgroundColor': '#00ff00',
+                        'color': '#ffffff'
+                    }, {
+                        'duration': 500, // ms
+                        'complete': when_finished
+                    });
                 } else {
                     // wrong-word case
+                    button.animate( {
+                        'background-color': 'red',
+                        'color': 'white'
+                    }, {
+                        'duration': 500, // ms
+                        'complete': when_finished
+                    });
                 }
                 game_state.attempts += 1;
                 evt.preventDefault();
-                start(game_state);
-                update_display( game_state );
                 return false;
             });
             word_choices.append( button );
