@@ -76,7 +76,18 @@ $(document).ready( function() {
         extend( state.remaining_words, source );
     };
     var start = function( state ) {
-        /* Choose 3 new words from the word-list, make one of them the chosen word */
+        /* Choose 3 new words from the word-list, make one of them the chosen word
+       
+        TODO: don't consume the other words, and re-add missed words to the list of 
+        words to check, i.e. you have to get every word right to go onto the next 
+        level.
+        
+        TODO: Require click within X seconds with countdown to actually make the 
+        game run at a reasonable speed.
+        
+        TODO: confirm operation on mobile phones and tablets
+      
+        */
         var choices = [];
         var i;
         for (i =0;i<state.choices_per;i++) {
