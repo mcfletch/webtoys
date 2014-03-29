@@ -2,10 +2,12 @@
 {% extends 'master.html' %}
 {% block content %}
 <div class="count-down"></div>
-<div class="score"></div>
 <div class="controls">
-    <button class="replay-current">Replay</button>
+    <div class="score"></div>
+    <button class="replay-current">Replay <i class="fa fa-refresh"></i></button>
+    <div class="clear-both"></div>
 </div>
+<div class="clear-both"></div>
 <div class="word-choices">
 </div>
 {% endblock %}
@@ -90,8 +92,9 @@ $(document).ready( function() {
         state.round.word = choices[random_index(choices)];
         word_choices.empty();
         $.map( choices, function(choice) {
-            var button = $( '<button class="vocabulary-word"></button>' );
-            button.text( choice );
+            var button = $( '<button class="vocabulary-word"><span class="word"></span><i class="fa fa-question"></i></button>' );
+            button.find('.word').text( choice );
+            button.data( 'word', choice );
             button.click(function(evt) {
                 var when_finished = function() {
                     start( game_state );
@@ -100,22 +103,12 @@ $(document).ready( function() {
                 if (choice === state.round.word) {
                     // success case
                     game_state.score += 1;
-                    button.animate( {
-                        'backgroundColor': '#00ff00',
-                        'color': '#ffffff'
-                    }, {
-                        'duration': 500, // ms
-                        'complete': when_finished
-                    });
+                    button.find('.fa').removeClass( 'fa-question').addClass( 'fa-check');
+                    button.fadeOut( 500, when_finished );
                 } else {
                     // wrong-word case
-                    button.animate( {
-                        'background-color': 'red',
-                        'color': 'white'
-                    }, {
-                        'duration': 500, // ms
-                        'complete': when_finished
-                    });
+                    button.find('.fa').removeClass( 'fa-question').addClass( 'fa-times');
+                    button.fadeOut( 500, when_finished );
                 }
                 game_state.attempts += 1;
                 evt.preventDefault();
@@ -138,7 +131,7 @@ $(document).ready( function() {
 {% endblock %}
 {% block page_style %}
 <style>
-    .vocabulary-word {
+    .vocabulary-word, .replay-current  {
         display: inline-block;
         width: 10em;
         text-align: center;
@@ -167,10 +160,20 @@ $(document).ready( function() {
         padding: 0;
         margin-left: 2em;
         margin-right: 2em;
+        text-align: center;
     }
     .word-choices button {
         font-size: 3em;
         width: 20em;
+        display: inline-block;
+    }
+    .controls {
+        text-align: center;
+    }
+    .controls button {
+        font-size: 2em;
+    }
+    .controls .score, .controls button {
         display: inline-block;
     }
     
