@@ -1,0 +1,85 @@
+{% set title = 'Fractions' %}
+{% extends 'master.html' %}
+{% block content %}
+    <div class="number-entry">
+        <input class="choose-number" type="number" min="1" max="999999" step="1" value="1"></input>
+    </div>
+    <div class="templates">
+    <div class="number-display">
+        <div class="number number-1"></div>
+        <div class="number number-2"></div>
+        <div class="number number-3"></div>
+        <div class="number number-4"></div>
+        <div class="number number-5"></div>
+        <div class="number number-6"></div>
+        <div class="number number-7"></div>
+        <div class="number number-8"></div>
+        <div class="number number-9"></div>
+        <div class="number number-10"></div>
+    </div>
+    </div>
+    
+{% endblock %}
+{% block page_scripts %}
+    <script src="./fractions.js"></script>
+{% endblock %}
+{% block page_style %}
+    <style type="text/css">
+        .number-display {
+            width: 150px;
+            height: 150px;
+            background-color: white;
+            position: relative;
+        }
+        .number {
+            position: absolute;
+            border: thin solid black;
+            width: 6%;
+            height: 6%;
+        }
+        .number.enabled {
+            background-color: green;
+        }
+        .number-1 {
+            left: 37%;
+            bottom: 17%;
+        }
+        .number-2 {
+            left: 37%;
+            bottom: 37%;
+        }
+        .number-3 {
+            left: 57%;
+            bottom: 37%;
+        }
+        .number-4 {
+            left: 57%;
+            bottom: 17%;
+        }
+        .number-5 {
+            left: 37%;
+            bottom: 57%;
+        }
+        .number-6 {
+            left: 57%;
+            bottom: 57%;
+        }
+        .number-7 {
+            left: 37%;
+            bottom: 77%;
+        }
+        .number-8 {
+            left: 57%;
+            bottom: 77%;
+        }
+        .number-9 {
+            left: 17%;
+            bottom: 37%;
+        }
+        .number-10 {
+            left: 77%;
+            bottom: 37%;
+        }
+        
+    </style>
+{% endblock %}
