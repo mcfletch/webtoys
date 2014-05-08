@@ -39,7 +39,7 @@ def generate_build( source=os.path.join( HERE, 'publish' ), target=os.path.join(
         if not os.path.exists( target_directory ):
             print 'making directory', target_directory
             os.makedirs( target_directory )
-            
+        
         loader = jinja2.FileSystemLoader( [directory,TEMPLATES] )
         environment = jinja2.Environment(
             loader = loader,
