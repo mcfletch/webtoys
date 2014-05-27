@@ -1,11 +1,6 @@
-{% set title = 'Subwords' %}
+{% set title = 'Inner Words' %}
 {% extends 'master.html' %}
 {% block content %}
-<ul>
-    <li><label for="prefix">Prefix</label><input id="prefix" value="prefix" name="fix" type="radio" /></li>
-    <li><label for="anyfix">Anywhere</label><input id="anyfix" value="anyfix" name="fix" type="radio" /></li>
-    <li><label for="suffix">Suffix</label><input id="suffix" value="suffix" name="fix" type="radio" CHECKED /></li>
-</ul>
 <input class="filter" type="text" />
 <div class="word-list">
 </div>
@@ -16,48 +11,35 @@
 $(document).ready( function() {
     var list = $('.word-list');
     var filter_entry = $('.filter');
-    var selected_position = function( ) {
-        return $('input[name=fix]:checked').val();
-    };
-    var word_regex = function( word ) {
-        var position = selected_position();
-        var matcher;
-        if (position === 'prefix') {
-            matcher = new RegExp( '^'+word+'.*$' );
-        } else if (position ==='suffix') {
-            matcher = new RegExp( '^.*'+word+'$' );
-        } else {
-            matcher = new RegExp( '^.*'+word+'.*$' );
-        }
-        return matcher;
+    var okay_1_char_words = {
+        'I':true,
+        'a':true,
+        'O':true,
     };
     var matching_words = function( word ) {
-        var matcher = word_regex( word );
         return $.grep( dictionary, function( value ) {
             try {
-                return matcher.test( value );
+                return (
+                    value && 
+                    (value.length > 1 || okay_1_char_words[value]) &&
+                    value.length < word.length && 
+                    word.indexOf(value) != -1 && 
+                    value !==word
+                );
             } catch (e) {
-                console.log( 'Failure matching '+e+ ' '+value );
+                console.log( 'Error with '+value +' '+word+ ' '+e );
             }
         });
     };
     var on_change = function() {
-        var position = selected_position();
-        $.map(['prefix','suffix','anyfix'],function( value ) {
-            if (position === value) {
-                list.addClass(value);
-            } else {
-                list.removeClass( value );
-            }
-        });
         var value = filter_entry.val();
         list.empty();
         if (!value.length) {
-            list.append( $('<div class="no-filter">Choose a filter</div>'));
+            list.append( $('<div class="no-filter">Choose a root word</div>'));
         } else {
             var matches = matching_words( $('.filter').val() );
             if (!matches.length) {
-                list.append( $('<div class="no-matches">No words found with that filter</div>'));
+                list.append( $('<div class="no-matches">No words found in that root</div>'));
             } else {
                 $.map( matches, function( word ) {
                     var line = $('<div class="match"><a href=""></a></div>');

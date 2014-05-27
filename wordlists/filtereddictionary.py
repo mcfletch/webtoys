@@ -7,7 +7,7 @@ a (hopefully) reasonable word-list.
 
 Meh, the result isn't very clean, maybe should use nltk word-lists?
 """
-import requests, os, json, glob
+import requests, os, json, glob, gzip
 HERE = os.path.dirname( __file__ )
 TARGET = os.path.join( HERE, '..', 'publish', 'wordlist','words.js' )
 
@@ -40,14 +40,14 @@ def filtered_dictionary():
     bad = get_badwords()
     dictionary = get_dictionary_words()
     words = set()
-    for source in (get_commonwords(), ):
+    for source in (get_commonwords(), dictionary ):
         for word in source:
             if (
                 not word in bad and 
                 not word[0].isupper() and 
                 not word.endswith( "'s")
             ):
-                if not word in dictionary:
+                if not (source is dictionary or word in dictionary):
                     print 'non-dictionary', word 
                 else:
                     words.add( word )
