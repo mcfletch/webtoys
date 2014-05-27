@@ -33,23 +33,29 @@ def get_commonwords():
     return [x.strip() for x in content.splitlines() if x.strip()]
 def get_dictionary_words():
     return set([x.strip() for x in open('/usr/share/dict/words').read().splitlines() if x.strip()])
-    
+def get_defining_words():
+    return [
+        word for word in [
+            x.strip().split()[0] for x in open( os.path.join( HERE, 'longman.txt' )).read().split(',')
+        ] if word]
+
 def filtered_dictionary():
     bad = get_badwords()
     dictionary = get_dictionary_words()
     words = set()
-    for word in get_commonwords():
-        if (
-            not word in bad and 
-            not word[0].isupper() and 
-            not word.endswith( "'s")
-        ):
-            if not word in dictionary:
-                print 'non-dictionary', word 
+    for source in (get_commonwords(), get_defining_words()):
+        for word in source:
+            if (
+                not word in bad and 
+                not word[0].isupper() and 
+                not word.endswith( "'s")
+            ):
+                if not word in dictionary:
+                    print 'non-dictionary', word 
+                else:
+                    words.add( word )
             else:
-                words.add( word )
-        else:
-            print 'filtered out %s'%(word,)
+                print 'filtered out %s'%(word,)
     # now explicitly make sure that we have our word-lists in there...
     for filename in glob.glob( os.path.join( HERE, 'wl-*.txt')):
         for word in open(filename).read().splitlines():
