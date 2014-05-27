@@ -4,6 +4,8 @@
 Uses the intersection of the system dictionary, a list of 10,000 common 
 English words and the exclusion of a collection of "bad" words to produce 
 a (hopefully) reasonable word-list.
+
+Meh, the result isn't very clean, maybe should use nltk word-lists?
 """
 import requests, os, json, glob
 HERE = os.path.dirname( __file__ )
@@ -33,17 +35,12 @@ def get_commonwords():
     return [x.strip() for x in content.splitlines() if x.strip()]
 def get_dictionary_words():
     return set([x.strip() for x in open('/usr/share/dict/words').read().splitlines() if x.strip()])
-def get_defining_words():
-    return [
-        word for word in [
-            x.strip().split()[0] for x in open( os.path.join( HERE, 'longman.txt' )).read().split(',')
-        ] if word]
 
 def filtered_dictionary():
     bad = get_badwords()
     dictionary = get_dictionary_words()
     words = set()
-    for source in (get_commonwords(), get_defining_words()):
+    for source in (get_commonwords(), ):
         for word in source:
             if (
                 not word in bad and 
