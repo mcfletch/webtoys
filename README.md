@@ -11,4 +11,4 @@ class.
 
 You can view all of the toys online at:
 
-- [WebToys](http://www.vrplumber.com/webtoys/)
+- [WebToys](http://webtoys.vrplumber.com/)
