@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load url from future %}
+{% load assets %}
+<html lang="en" {% if ngapp %}ng-app="{{ngapp}}"{% endif %}>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    {% block page_style %}
+    {% endblock %}
+    <title>{% block headertitle %}WebToys{%endblock%}</title>
+    
+    {% assets "css_all" %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ ASSET_URL }}" />
+    {% endassets %}
+  </head>
+<body>
+{% block header %}
+<div class="location-bar">
+    <a href="../">Web Toys</a>
+    {% block title %}Web Toys{% endblock %}
+</div>
+{% endblock %}
+{% block content %}
+{% endblock %}
+<div class="scripts">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    {% block page_scripts %}
+    {% endblock %}
+</div>
+</body>
+</html>

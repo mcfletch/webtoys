@@ -1,0 +1,14 @@
+django
+django-annoying
+gunicorn
+pytz
+dateutils
+python-dateutil
+django_nose
+git+https://github.com/miracle2k/django-assets.git#egg=django_assets
+#django_assets==0.8
+south
+requests==1.1.0
+yuicompressor
+coverage
+webassets

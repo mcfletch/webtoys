@@ -1,5 +1,6 @@
 *.e4?
 *.pyc
+*.egg-info
 build
 wordlists/sounds
 wordlists/badwords.txt
