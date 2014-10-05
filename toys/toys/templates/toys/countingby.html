@@ -1,0 +1,39 @@
+{% extends 'master.html' %}
+{% block content %}
+    
+    <div id="counting-by-holder">
+    </div>
+{% endblock %}
+{% block page_style %}
+    <style type="text/css">
+        .number-block {
+            font-size: large;
+            color: black;
+            padding: 2em;
+            margin: 0;
+            width: 95%;
+        }
+        .number-row {
+            padding-top: .3em;
+        }
+        .number-block .number {
+            vertical-align: top;
+            border-radius: 4px;
+            text-align: center;
+            min-width: 3em;
+        }
+        .cell {
+            text-align: right;
+        }
+        .number .equation {
+            font-size: .5em;
+        }
+        .selected {
+            background-color: black;
+            color: white;
+        }
+    </style>
+{% endblock %}
+{% block page_scripts %}
+    <script src="{{STATIC_URL}}js/countingby.js"></script>
+{% endblock %}

@@ -7,5 +7,9 @@ log = logging.getLogger( __name__ )
 def frontpage( request ):
     return {
     }
+@render_to( 'toys/countingby.html' )
+def countingby( request ):
+    return {
+    }
 
 from django.utils.translation import ugettext as _

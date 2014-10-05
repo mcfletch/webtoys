@@ -81,11 +81,16 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join( VAR_DIR, 'www', 'static')
 
-TEMPLATE_LOADERS = (
-    ('django.template.loaders.cached.Loader', (
+if DEBUG:
+    TEMPLATE_LOADERS = [
         'django.template.loaders.app_directories.Loader',
-    )),
-)
+    ]
+else:
+    TEMPLATE_LOADERS = [
+        ('django.template.loaders.cached.Loader', (
+            'django.template.loaders.app_directories.Loader',
+        )),
+    ]
 
 TEMPLATE_CONTEXT_PROCESSORS = [
     'django.core.context_processors.debug',
