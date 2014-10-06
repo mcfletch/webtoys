@@ -37,8 +37,9 @@ var CountingBy = React.createClass( {
         var overall = [];
         var current = [];
         var number = store.number;
+        var per_row = this.props.per_row || number;
         for (i=1;i<store.total+1;i++) {
-            if ((i % number == 1)) {
+            if ((i % per_row == 1)) {
                 overall.push( RD.tr({'className':'number-row','children':current,'align':'top'}) );
                 current = [];
             }
@@ -49,19 +50,31 @@ var CountingBy = React.createClass( {
             } else if (i%number == 0) {
                 cell_classes += 'multiple ';
                 equation += ''+number+'\u2715'+(i/number);
+                if (i/number == number) {
+                    cell_classes += 'square ';
+                }
             } else if (number%i == 0) {
                 cell_classes += 'factor ';
                 equation += ''+i+'\u2715'+(number/i);
+                if (number/i == i) {
+                    cell_classes += 'square ';
+                }
             } else {
-                if (i-number > 0) {
+                if (false && i-number > 0 && (! this.props.per_row)) {
                     equation += ''+(i-number)+' \u2795 '+number;
                 }
             }
+            var style;
+            if (! this.props.per_row) {
+                style ={
+                    'width':Math.floor((1/number)*100)+'%'
+                }
+            } else {
+                style = {};
+            }
             current.push( RD.td({
                 'className': cell_classes,
-                'style': {
-                    'width':Math.floor((1/number)*100)+'%'
-                },
+                'style': style,
                 onClick: self.setter(i).bind(self)
             }, 
                 RD.div({className:"num"},""+i),
@@ -88,9 +101,14 @@ var CountingBy = React.createClass( {
 $(document).ready( function() {
     var tree_holder = document.getElementById('counting-by-holder');
     var counting_store = CountingByStorage();
+    var per_row = null;
+    if (tree_holder.hasAttribute('data-per-row')) {
+        per_row = parseInt( tree_holder.getAttribute('data-per-row'));
+    }
     var number_display = React.renderComponent( 
         CountingBy({
-            store: counting_store
+            store: counting_store,
+            per_row: per_row
         }),
         tree_holder
     );

@@ -1,0 +1,18 @@
+{% extends 'master.html' %}
+{% block content %}
+    <div id="polygon-holder">
+    </div>
+    <div class="instructions">
+        <ul>
+        </ul>
+    </div>
+{% endblock %}
+{% block page_style %}
+    <style type="text/css">
+    </style>
+{% endblock %}
+{% block page_scripts %}
+    <script src="{{STATIC_URL}}js/basestorage.js"></script>
+    <script src="{{STATIC_URL}}js/numberchoice.js"></script>
+    <script src="{{STATIC_URL}}js/polygons.js"></script>
+{% endblock %}

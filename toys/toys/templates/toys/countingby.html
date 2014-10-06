@@ -1,6 +1,6 @@
 {% extends 'master.html' %}
 {% block content %}
-    <div id="counting-by-holder">
+    <div id="counting-by-holder" {% if per_row %}data-per-row="{{per_row}}"{%endif%}>
     </div>
     <div class="instructions">
         <ul>
@@ -12,9 +12,11 @@
         the yellow number. So, for instance, if you select 10, you will see 2 highlighted in yellow
         if you counted by 2s you would get 2,4,6,8,10, so after 5 numbers you would have 10. 
         We write that as 2 ✕ 5 = 10.</li>
+        {% if not per_row %}
         <li>When you click a number, the grid arranges itself so that you can see what 
         happens when you &quot;add&quot; that number to another number. The row below each number
         is the value when you add the selected number.</li>
+        {% endif %}
         </ul>
     </div>
 {% endblock %}
