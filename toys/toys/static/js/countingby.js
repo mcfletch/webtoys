@@ -1,64 +1,68 @@
 /** @jsx React.DOM */
 var RD = React.DOM;
 
-var cell = function(i) {
-    return {
-        number: i,
-        equation: '',
-        square: false,
-        multiple: false,
-        selected: false,
-        factor: false
-    }
-};
-
-var CountingStore = function() {
-    var self = {
-        number: 10,
-        rows: [],
-        cells: []
-    };
-    for (var i=0;i<self.total;i++) {
-        self.cells.push( cell(i));
-    }
-    
-    this.number = 10;
-    this.total = 100;
-    this.cells = [];
-    this.rows = [];
-    this.set_number = function( number ) {
-        this.number = number;
-    };
-    this.set_number( 10 );
-    return this;
+var CountingByStorage = function(state) {
+    var storage = BaseStorage( {
+        'url':'',
+        'listeners': [],
+        'id_map': {},
+        'number': 10,
+        'total': 100,
+        'rows': [],
+        'cells': []
+    });
+    $.extend( storage, state || {});
+    $.extend( storage, {
+        'set_number': function( number ) {
+            storage.number = number;
+            storage.update();
+        }
+    });
+    return storage;
 };
 
 var CountingBy = React.createClass( {
+    componentWillMount: function() {
+        this.props.store.listen( this.setState.bind(this) );
+    },
+    setter: function(i) {
+        /* create a function to set a specific value */
+        var operator = function() { this.props.store.set_number(i);};
+        return operator;
+    },
     rows: function() {
         var self = this;
+        var store = this.props.store;
         var i,cell_classes;
         var overall = [];
         var current = [];
-        var number = this.props.store.number;
-        for (i=1;i<this.props.store.total+1;i++) {
+        var number = store.number;
+        for (i=1;i<store.total+1;i++) {
             if ((i % number == 1)) {
-                overall.push( RD.tr({'className':'number-row','children':current}) );
+                overall.push( RD.tr({'className':'number-row','children':current,'align':'top'}) );
                 current = [];
             }
-            cell_classes = 'cell ';
+            cell_classes = 'cell number ';
+            equation = "";
             if (number == i) {
                 cell_classes += 'selected ';
-            } else if (number % i == 0) {
+            } else if (i%number == 0) {
                 cell_classes += 'multiple ';
-            } else if (i % number == 0) {
+                equation += ''+number+' \u2715 '+(i/number)+' = '+ i;
+            } else if (number%i == 0) {
                 cell_classes += 'factor ';
+                equation += ''+i+' \u2715 '+(number/i)+' = '+ number;
             }
             current.push( RD.td({
                 'className': cell_classes,
-                'onClick': function() {
-                    self.props.store.number = i;
-                }
-            }, ""+i));
+                'style': {
+                    'width':Math.floor((1/number)*100)+'%'
+                },
+                onClick: self.setter(i).bind(self)
+            }, 
+                RD.div({className:"num"},""+i),
+                RD.div({className:"equation"},equation)
+            ));
         }
         if (current.length) {
             overall.push( RD.tr({
@@ -79,7 +83,7 @@ var CountingBy = React.createClass( {
 
 $(document).ready( function() {
     var tree_holder = document.getElementById('counting-by-holder');
-    var counting_store = CountingStore();
+    var counting_store = CountingByStorage();
     var number_display = React.renderComponent( 
         CountingBy({
             store: counting_store

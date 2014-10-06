@@ -6,6 +6,9 @@
 {% endblock %}
 {% block page_style %}
     <style type="text/css">
+        .group-view {
+            width: 99%;
+        }
         .number-block {
             font-size: large;
             color: black;
@@ -24,6 +27,7 @@
         }
         .cell {
             text-align: right;
+            vertical-align: top;
         }
         .number .equation {
             font-size: .5em;
@@ -35,5 +39,6 @@
     </style>
 {% endblock %}
 {% block page_scripts %}
+    <script src="{{STATIC_URL}}js/basestorage.js"></script>
     <script src="{{STATIC_URL}}js/countingby.js"></script>
 {% endblock %}
