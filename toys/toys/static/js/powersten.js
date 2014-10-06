@@ -8,7 +8,9 @@ var PowerStorage = function(state) {
         'id_map': {},
         'number': 1,
         'power': 10,
-        'min_levels': 4,
+        'min_levels': 3,
+        'min':1,
+        'max':999999999,
         'rows': [],
         'cells': []
     });
@@ -18,13 +20,17 @@ var PowerStorage = function(state) {
             storage.number = number;
             storage.update();
         },
+        'set_power': function(number) {
+            storage.power = number;
+            storage.update();
+        },
         'baseLog': function( number, base ) {
             return Math.log(number)/Math.log(base);
         },
         'levels': function( number ) {
             number = number || storage.number;
             var required_levels = Math.max(
-                storage.min_levels,
+                storage.min_levels-1,
                 Math.floor(storage.baseLog( number || storage.number, storage.power ))
             );
             var i,levels;
@@ -53,17 +59,20 @@ var NumberChoice = React.createClass( {
             return true;
         }
         var updated = event.target.value;
-        console.log("Updated value "+updated );
         updated = parseInt(updated);
         if ((! updated) || (! isNaN(updated))) {
-            this.props.store.set_number( updated );
+            updated = Math.min(updated,this.props.max);
+            updated = Math.max(updated,this.props.min);
+            this.props.set_value( updated );
         }
         return true;
     },
     render: function() {
         return RD.input({
             'type':'number',
-            'value': this.props.store.number,
+            'value': this.props.get_value(),
+            'max': this.props.max,
+            'min': this.props.min,
             'onChange': this.handleChange
         });
     }
@@ -87,33 +96,63 @@ var PowerDisplay = React.createClass( {
         var row,power;
         var overall = [];
         var levels = store.levels();
-        for (row=(store.power-1);row > 0;row--) {
-            overall.push(
-                RD.tr({'children': $.map( levels, function(level,index) {
-                    var remainder = number % (level*store.power);
-                    var multiple = remainder / level;
-                    var class_name = 'power power-'+(levels.length-index);
-                    if (multiple >= row) {
-                        class_name += ' selected';
-                    }
-                    return RD.td({'className':class_name} );
-                })})
-            );
+        for (row=(store.power-1);row > -1;row--) {
+            if (row > 0) {
+                overall.push(
+                    RD.tr({'children': $.map( levels, function(level,index) {
+                        var remainder = number % (level*store.power);
+                        var multiple = remainder / level;
+                        var class_name = 'power power-'+(levels.length-index);
+                        if (multiple >= row) {
+                            class_name += ' selected';
+                        }
+                        return RD.td({'className':class_name} );
+                    })})
+                );
+            } else {
+                overall.push(
+                    RD.tr({'children': $.map( levels, function(level,index) {
+                        var remainder = number % (level*store.power);
+                        var multiple = Math.floor(remainder / level);
+                        if (level>number) {
+                            multiple = ''
+                        }
+                        return RD.td({},''+(multiple) );
+                    })})
+                );
+            }
         }
         return overall;
     },
     render: function() {
         var storage = this.props.store;
-        var input = NumberChoice({ store: storage });
+        var input = NumberChoice({ 
+            get_value: function() {return storage.number}, 
+            set_value:storage.set_number.bind(storage),
+            store: storage,
+            min: storage.min,
+            max: storage.max
+        });
+        var power = NumberChoice({
+            get_value: function() {return storage.power}, 
+            set_value:storage.set_power.bind(storage),
+            store: storage,
+            min: 2,
+            max: 24
+        });
+            
         
         return RD.div({
             'className': 'powers-view',
         },
             RD.div({"className":'number-form'},
-                input
+                input,
+                " in base ",
+                power
             ),
+            
             RD.table({ 
-                'className': 'group-view', 
+                'className': 'group-view number-block', 
             },
                 RD.thead({},
                     RD.tr({
