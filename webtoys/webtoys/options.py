@@ -1,4 +1,4 @@
-from configparser import RawConfigParser as ConfigParser, NoSectionError, NoOptionError
+from ConfigParser import RawConfigParser as ConfigParser, NoSectionError, NoOptionError
 import glob
 OPTIONS = None
 CONFIG_DIR = '/etc/webtoys/*.conf'

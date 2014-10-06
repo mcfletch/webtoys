@@ -38,23 +38,38 @@ a:hover {
     color: white;
 }
 
-.selected.power-1 {
+.selected.power {
+    background-color: black;
+}
+.selected.power.power-1 {
     background-color: red;
 }
-.selected.power-2 {
+.selected.power.power-2 {
     background-color: orange;
 }
-.selected.power-3 {
+.selected.power.power-3 {
     background-color: yellow;
 }
-.selected.power-4 {
+.selected.power.power-4 {
     background-color: green;
 }
-.selected.power-5 {
+.selected.power.power-5 {
     background-color: blue;
 }
-.selected.power-6 {
+.selected.power.power-6 {
     background-color: indigo;
+}
+.selected.power.power-7 {
+    background-color: grey;
+}
+.selected.power.power-8 {
+    background-color: dark-green;
+}
+.selected.power.power-9 {
+    background-color: dark-brown;
+}
+.selected.power.power-10 {
+    background-color: dark-grey;
 }
 
 .factor {

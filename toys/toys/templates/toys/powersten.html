@@ -1,0 +1,67 @@
+{% extends 'master.html' %}
+{% block content %}
+    <div id="powers-ten-holder">
+    </div>
+    <div class="instructions">
+        <ul>
+        </ul>
+    </div>
+{% endblock %}
+{% block page_style %}
+    <style type="text/css">
+        
+        .number-entry {
+            text-align: center;
+        }
+        .number-entry .choose-number {
+            font-size: 2em;
+        }
+        th, td {
+            text-align: center;
+            height: 2em;
+            width: 2em;
+            border-radius: 4px;
+        }
+        .number-block {
+            width: 95%;
+        }
+        .number-row {
+            padding-top: .3em;
+        }
+        .number-block .number {
+            vertical-align: top;
+            border-radius: 4px;
+            text-align: center;
+            min-width: 2em;
+        }
+        .factor {
+            background-color: #00f0f0;
+        }
+        .multiple {
+            background-color: #f0f000;
+        }
+        .number .equation {
+            font-size: .5em;
+        }
+        .number.selected {
+            background-color: black;
+            color: white;            
+        }
+        .square {
+            color: green;
+        }
+        
+        .number-text {
+            font-size: 72pt;
+        }
+        
+        td {
+            border: #ccc thin solid;
+        }
+        
+    </style>
+{% endblock %}
+{% block page_scripts %}
+    <script src="{{STATIC_URL}}js/basestorage.js"></script>
+    <script src="{{STATIC_URL}}js/powersten.js"></script>
+{% endblock %}

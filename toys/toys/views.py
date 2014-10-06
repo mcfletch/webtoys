@@ -26,5 +26,10 @@ def frontpage( request ):
 def countingby( request ):
     return {
     }
+@render_to( 'toys/powersten.html' )
+@with_title('Powers of Ten')
+def powersten( request ):
+    return {
+    }
 
 from django.utils.translation import ugettext as _

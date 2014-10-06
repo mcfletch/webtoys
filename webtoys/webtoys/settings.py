@@ -26,6 +26,7 @@ TEMPLATE_DEBUG = DEBUG
 ASSETS_DEBUG = DEBUG
 
 ALLOWED_HOSTS = [
+    '*', 
     get_string( 'django','allowed_hosts','webtoys.vrplumber.com'),
 ]
 
