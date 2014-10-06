@@ -1,7 +1,21 @@
 {% extends 'master.html' %}
 {% block content %}
-    
     <div id="counting-by-holder">
+    </div>
+    <div class="instructions">
+        <ul>
+        <li>When you click a number, you'll see green squares that show you how to 
+        &quot;count by&quot; that number. So, for instance, if you select 10, you will
+        see 10,20,30,40,50,60,70,80,90 and 100 highlighted. Note how each &quot;multiple&quot;
+        is written as 10 ✕ <i>number</i> = 20.</li>
+        <li>The numbers in yellow are those that would reach your number when &quot;counting by&quot;
+        the yellow number. So, for instance, if you select 10, you will see 2 highlighted in yellow
+        if you counted by 2s you would get 2,4,6,8,10, so after 5 numbers you would have 10. 
+        We write that as 2 ✕ 5 = 10.</li>
+        <li>When you click a number, the grid arranges itself so that you can see what 
+        happens when you &quot;add&quot; that number to another number. The row below each number
+        is the value when you add the selected number.</li>
+        </ul>
     </div>
 {% endblock %}
 {% block page_style %}

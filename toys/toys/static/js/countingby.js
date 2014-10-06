@@ -48,10 +48,14 @@ var CountingBy = React.createClass( {
                 cell_classes += 'selected ';
             } else if (i%number == 0) {
                 cell_classes += 'multiple ';
-                equation += ''+number+' \u2715 '+(i/number)+' = '+ i;
+                equation += ''+number+'\u2715'+(i/number);
             } else if (number%i == 0) {
                 cell_classes += 'factor ';
-                equation += ''+i+' \u2715 '+(number/i)+' = '+ number;
+                equation += ''+i+'\u2715'+(number/i);
+            } else {
+                if (i-number > 0) {
+                    equation += ''+(i-number)+' \u2795 '+number;
+                }
             }
             current.push( RD.td({
                 'className': cell_classes,

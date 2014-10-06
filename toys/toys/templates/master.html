@@ -9,7 +9,7 @@
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     {% block page_style %}
     {% endblock %}
-    <title>{% block headertitle %}WebToys{%endblock%}</title>
+    <title>{% block headertitle %}{{title|default:"WebToys"}}{%endblock%}</title>
     
     {% assets "css_all" %}
         <link rel="stylesheet" type="text/css" media="screen" href="{{ ASSET_URL }}" />
@@ -18,8 +18,7 @@
 <body>
 {% block header %}
 <div class="location-bar">
-    <a href="../">Web Toys</a>
-    {% block title %}Web Toys{% endblock %}
+    <a href="../">Web Toys</a> {{title}}
 </div>
 {% endblock %}
 {% block content %}
