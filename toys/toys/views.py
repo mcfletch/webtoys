@@ -42,4 +42,13 @@ def polygons( request ):
     return {
     }
 
+def render_sound( request ):
+    if request.method == 'POST':
+        command = [
+            'espeak',
+                '-a200',
+                '-w', target_file, 
+                '-ven-us%s',
+                '-k5','-s150', '-z', repr(word)]
+
 from django.utils.translation import ugettext as _
