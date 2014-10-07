@@ -1,8 +1,12 @@
-from django.utils.translation import ugettext_lazy as _
-import logging
+import logging,  tempfile,  os,  subprocess, shutil, hashlib
 from annoying.decorators import render_to
 from functools import wraps
+from django.core import cache as _cache
+from django.http import HttpResponse
+from toys import forms
 log = logging.getLogger( __name__ )
+
+AUDIO_CACHE = _cache.get_cache('utterances')
 
 def with_title( title ):
     def wrapper(function):
@@ -42,13 +46,51 @@ def polygons( request ):
     return {
     }
 
-def render_sound( request ):
+@render_to( 'toys/saywhat.html' )
+@with_title('Say What?')
+def saywhat( request ):
+    form = None
     if request.method == 'POST':
-        command = [
-            'espeak',
-                '-a200',
-                '-w', target_file, 
-                '-ven-us%s',
-                '-k5','-s150', '-z', repr(word)]
-
-from django.utils.translation import ugettext as _
+        form = forms.GenerateText(request.POST)
+        if form.is_valid():
+            extension = form.cleaned_data.get('format')
+            words = form.cleaned_data.get('words')
+            key = '%s_%s'%(extension, hashlib.md5(words).hexdigest())
+            content = AUDIO_CACHE.get( key )
+            if not content:
+                temp_dir = tempfile.mkdtemp(prefix='utterance')
+                try:
+                    temp = os.path.join( temp_dir, 'utterance.wav' )
+                    final = os.path.join( temp_dir,  'utterance.%s'%(extension))
+                    command = [
+                        'espeak',
+                            '-a200',
+                            '-w', temp,  
+                            '-ven-us',
+                            '-k5','-s150', '-z', 
+                            temp, 
+                    ]
+                    subprocess.check_call(command)
+                    if extension == 'mp3':
+                        extra_args = []
+                    else:
+                        extra_args = ['-acodec','libvorbis']
+                    if os.path.exists( final ):
+                        os.remove( final )
+                    subprocess.check_call( [
+                        'avconv', '-i', temp] + extra_args + [final],
+                    )
+                    content = open(final, 'rb').read()
+                    AUDIO_CACHE.set( key,  content )
+                finally:
+                    shutil.rmtree(temp_dir)
+            if extension == 'ogg':
+                mime_type = 'audio/ogg'
+            else:
+                mime_type = 'audio/mpeg'
+            return HttpResponse(content, content_type=mime_type)
+    if not form:
+        form = forms.GenerateText()
+    return {
+        'form':form, 
+    }

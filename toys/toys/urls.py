@@ -7,6 +7,8 @@ urlpatterns = patterns('toys.views',
     url(r'^countingby[/]?$','countingby',name='countingby'),
     url(r'^1[/]?$','countingby',kwargs={'per_row':10}, name='multiplefactors',),
     url(r'^powersten[/]?$','powersten',name='powersten'),
+    
+    url(r'^saywhat[/]?$', 'saywhat', name='saywhat'), 
 )
 
 #from django.utils.translation import ugettext as _

@@ -1,0 +1,13 @@
+{% extends 'master.html' %}
+{% block content %}
+    <form class='primary-form' method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form}}
+    </form>
+{% endblock %}
+{% block page_style %}
+    <style type="text/css">
+    </style>
+{% endblock %}
+{% block page_scripts %}
+{% endblock %}
