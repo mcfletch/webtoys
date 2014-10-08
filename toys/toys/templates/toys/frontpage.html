@@ -20,7 +20,7 @@
 <li><a href="{% url 'saywhat' %}">Say What</a> type words/sentences and hear them read out</li>
 <li><a href="{% url 'wordlist' %}">Word List</a> SK wordlist with click-to-say (computer voice currently)</li>
 <li><a href="{% url 'clickfast' %}">Click Fast</a> Click on the spoken words</li>
-<li><a href="./wordlist/subwords.html">Sub Words</a> Type in word-fragments to see words that contain that word-fragment (note: will load slowly due to the large word-list)</li>
+<li><a href="{% url 'subwords' %}">Sub Words</a> Type in word-fragments to see words that contain that word-fragment (note: will load slowly due to the large word-list)</li>
 <li><a href="./wordlist/innerwords.html">Inner Words</a> Type a word to see the words inside it  (note: will load slowly due to the large word-list)</li>
 </ul>
 {% endblock %}
