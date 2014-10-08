@@ -1,0 +1,110 @@
+{% extends 'master.html' %}
+{% block content %}
+<ul>
+    <li><label for="prefix">Prefix</label><input id="prefix" value="prefix" name="fix" type="radio" /></li>
+    <li><label for="anyfix">Anywhere</label><input id="anyfix" value="anyfix" name="fix" type="radio" /></li>
+    <li><label for="suffix">Suffix</label><input id="suffix" value="suffix" name="fix" type="radio" CHECKED /></li>
+</ul>
+<input class="filter" type="text" />
+<div class="word-list">
+</div>
+{% endblock %}
+{% block page_scripts %}
+<script src="./words.js"></script>
+<script>
+$(document).ready( function() {
+    var list = $('.word-list');
+    var filter_entry = $('.filter');
+    var selected_position = function( ) {
+        return $('input[name=fix]:checked').val();
+    };
+    var word_regex = function( word ) {
+        var position = selected_position();
+        var matcher;
+        if (position === 'prefix') {
+            matcher = new RegExp( '^'+word+'.*$' );
+        } else if (position ==='suffix') {
+            matcher = new RegExp( '^.*'+word+'$' );
+        } else {
+            matcher = new RegExp( '^.*'+word+'.*$' );
+        }
+        return matcher;
+    };
+    var matching_words = function( word ) {
+        var matcher = word_regex( word );
+        return $.grep( dictionary, function( value ) {
+            try {
+                return matcher.test( value );
+            } catch (e) {
+                console.log( 'Failure matching '+e+ ' '+value );
+            }
+        });
+    };
+    var on_change = function() {
+        var position = selected_position();
+        $.map(['prefix','suffix','anyfix'],function( value ) {
+            if (position === value) {
+                list.addClass(value);
+            } else {
+                list.removeClass( value );
+            }
+        });
+        var value = filter_entry.val();
+        list.empty();
+        if (!value.length) {
+            list.append( $('<div class="no-filter">Choose a filter</div>'));
+        } else {
+            var matches = matching_words( $('.filter').val() );
+            if (!matches.length) {
+                list.append( $('<div class="no-matches">No words found with that filter</div>'));
+            } else {
+                $.map( matches, function( word ) {
+                    var line = $('<div class="match"><a href=""></a></div>');
+                    line.find('a').text( word );
+                    line.find('a').attr( 'href', 'https://www.google.ca/search?q=define%3A'+word );
+                    list.append( line );
+                });
+            }
+        }
+    };
+        
+    filter_entry.keyup( function(event) {
+        on_change();
+        return false;
+    });
+    $('input[name=fix]').change( function( event ) {
+        on_change();
+        return false;
+    });
+    on_change();
+});
+</script>
+{% endblock %}
+{% block page_style %}
+<style>
+    .vocabulary-word {
+        display: inline-block;
+        width: 10em;
+        text-align: center;
+        margin: 3px;
+        padding: 3px;
+        border-radius: 4px;
+    }
+    input.filter {
+        width: 10em;
+    }
+    .word-list {
+        width: 10em;
+    }
+    .word-list.prefix {
+        text-align: left;
+    }
+    .word-list.suffix {
+        text-align: right;
+    }
+    .word-list.anyfix {
+        text-align: center;
+    }
+    
+</style>
+{% endblock %}

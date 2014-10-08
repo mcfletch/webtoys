@@ -60,6 +60,10 @@ def clickfast(request):
     return {
         'wordlists':sightwords.WORD_LISTS, 
     }
+@render_to('toys/subwords.html')
+@with_title('Sub Words')
+def subwords(request):
+    return {}
 
 
 @render_to( 'toys/saywhat.html' )

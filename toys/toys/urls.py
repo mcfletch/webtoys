@@ -11,7 +11,9 @@ urlpatterns = patterns('toys.views',
     
     url(r'^saywhat[/]?$', 'saywhat', name='saywhat'), 
     url(r'^wordlist[/]?$', 'wordlist',  name='wordlist'), 
-    url(r'^(?:wordlist[/])?clickfast(?:[.]html|[/])?$', 'clickfast', name='clickfast')
+    url(r'^(?:wordlist[/])?clickfast(?:[.]html|[/])?$', 'clickfast', name='clickfast'), 
+    url(r'^(?:wordlist[/])?subwords(?:[.]html|[/])?$', 'subwords', name='subwords'), 
+    
 )
 
 #from django.utils.translation import ugettext as _
