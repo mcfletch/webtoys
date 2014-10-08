@@ -55,7 +55,7 @@ def wordlist(request):
     }
 @render_to('toys/clickfast.html')
 @with_title('Click Fast')
-def wordlist(request):
+def clickfast(request):
     from . import sightwords
     return {
         'wordlists':sightwords.WORD_LISTS, 
