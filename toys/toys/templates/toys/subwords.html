@@ -6,10 +6,11 @@
     <li><label for="suffix">Suffix</label><input id="suffix" value="suffix" name="fix" type="radio" CHECKED /></li>
 </ul>
 <input class="filter" type="text" />
-<div class="word-list">
+<div class="word-list audio-source" data-base-url="{% url 'saywhat' %}">
 </div>
 {% endblock %}
 {% block page_scripts %}
+<script src="{{STATIC_URL}}js/playword.js"></script>
 <script src="{{STATIC_URL}}js/words.js"></script>
 <script>
 $(document).ready( function() {
@@ -59,9 +60,14 @@ $(document).ready( function() {
                 list.append( $('<div class="no-matches">No words found with that filter</div>'));
             } else {
                 $.map( matches, function( word ) {
-                    var line = $('<div class="match"><a href=""></a></div>');
-                    line.find('a').text( word );
-                    line.find('a').attr( 'href', 'https://www.google.ca/search?q=define%3A'+word );
+                
+                    var line = $('<div class="match"><span class="vocabulary-word"></span><i class="define fa fa-question"></i></div>');
+                    line.find('.vocabulary-word').text(word).click( function(evt) {
+                        $.play_word( word, base_url );
+                    });
+                    line.find('.define').click( function(evt) {
+                        window.location.href = 'https://www.google.ca/search?q=define%3A'+encodeURIComponent(word);
+                    });
                     list.append( line );
                 });
             }
@@ -89,6 +95,11 @@ $(document).ready( function() {
         margin: 3px;
         padding: 3px;
         border-radius: 4px;
+        background-color: red;
+        color: white;
+    }
+    .match {
+        width: 12em;
     }
     input.filter {
         width: 10em;
