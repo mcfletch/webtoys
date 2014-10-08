@@ -1,0 +1,92 @@
+{% extends 'master.html' %}
+{% block content %}
+<input class="filter" type="text" />
+<div class="word-list">
+</div>
+{% endblock %}
+{% block page_scripts %}
+<script src="{{STATIC_URL}}js/words.js"></script>
+<script>
+$(document).ready( function() {
+    var list = $('.word-list');
+    var filter_entry = $('.filter');
+    var okay_1_char_words = {
+        'I':true,
+        'a':true,
+        'O':true,
+    };
+    var matching_words = function( word ) {
+        return $.grep( dictionary, function( value ) {
+            try {
+                return (
+                    value && 
+                    (value.length > 1 || okay_1_char_words[value]) &&
+                    value.length < word.length && 
+                    word.indexOf(value) != -1 && 
+                    value !==word
+                );
+            } catch (e) {
+                console.log( 'Error with '+value +' '+word+ ' '+e );
+            }
+        });
+    };
+    var on_change = function() {
+        var value = filter_entry.val();
+        list.empty();
+        if (!value.length) {
+            list.append( $('<div class="no-filter">Choose a root word</div>'));
+        } else {
+            var matches = matching_words( $('.filter').val() );
+            if (!matches.length) {
+                list.append( $('<div class="no-matches">No words found in that root</div>'));
+            } else {
+                $.map( matches, function( word ) {
+                    var line = $('<div class="match"><a href=""></a></div>');
+                    line.find('a').text( word );
+                    line.find('a').attr( 'href', 'https://www.google.ca/search?q=define%3A'+word );
+                    list.append( line );
+                });
+            }
+        }
+    };
+        
+    filter_entry.keyup( function(event) {
+        on_change();
+        return false;
+    });
+    $('input[name=fix]').change( function( event ) {
+        on_change();
+        return false;
+    });
+    on_change();
+});
+</script>
+{% endblock %}
+{% block page_style %}
+<style>
+    .vocabulary-word {
+        display: inline-block;
+        width: 10em;
+        text-align: center;
+        margin: 3px;
+        padding: 3px;
+        border-radius: 4px;
+    }
+    input.filter {
+        width: 10em;
+    }
+    .word-list {
+        width: 10em;
+    }
+    .word-list.prefix {
+        text-align: left;
+    }
+    .word-list.suffix {
+        text-align: right;
+    }
+    .word-list.anyfix {
+        text-align: center;
+    }
+    
+</style>
+{% endblock %}

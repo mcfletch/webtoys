@@ -48,23 +48,26 @@ def polygons( request ):
 
 @render_to('toys/wordlist.html')
 @with_title('Sight Word List')
-def wordlist(request):
+def wordlist(request, *args):
     from . import sightwords
     return {
         'wordlists':sightwords.WORD_LISTS, 
     }
 @render_to('toys/clickfast.html')
 @with_title('Click Fast')
-def clickfast(request):
+def clickfast(request, *args):
     from . import sightwords
     return {
         'wordlists':sightwords.WORD_LISTS, 
     }
 @render_to('toys/subwords.html')
 @with_title('Sub Words')
-def subwords(request):
+def subwords(request, *args):
     return {}
-
+@render_to('toys/innerwords.html')
+@with_title('Inner Words')
+def innerwords(request, *args):
+    return {}
 
 @render_to( 'toys/saywhat.html' )
 @with_title('Say What?')
