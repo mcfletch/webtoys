@@ -23,6 +23,7 @@ def with_title( title ):
     return wrapper
 
 @render_to( 'toys/frontpage.html' )
+@with_title('Current Toys')
 def frontpage( request ):
     return {
     }
