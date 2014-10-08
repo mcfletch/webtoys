@@ -16,6 +16,7 @@
 $(document).ready( function() {
     var list = $('.word-list');
     var filter_entry = $('.filter');
+    var base_url = list.attr('data-base-url');
     var selected_position = function( ) {
         return $('input[name=fix]:checked').val();
     };
