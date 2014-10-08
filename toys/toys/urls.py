@@ -5,10 +5,12 @@ urlpatterns = patterns('toys.views',
     url(r'^(?:index.html)?$','frontpage',name='frontpage'),
     url(r'^polygons[/]?$','polygons',name='polygons'),
     url(r'^countingby[/]?$','countingby',name='countingby'),
-    url(r'^1[/]?$','countingby',kwargs={'per_row':10}, name='multiplefactors',),
+    url(r'^multiplefactors[/]?$','countingby',kwargs={'per_row':10}, name='multiplefactors',),
     url(r'^powersten[/]?$','powersten',name='powersten'),
+    url(r'^1[/]?$','countingby',kwargs={'per_row':10}, name='multiplefactors_old',),
     
     url(r'^saywhat[/]?$', 'saywhat', name='saywhat'), 
+    url(r'^wordlist[/]?$', 'wordlist',  name='wordlist'), 
 )
 
 #from django.utils.translation import ugettext as _

@@ -1,13 +1,33 @@
 {% extends 'master.html' %}
 {% block content %}
-    <form class='primary-form' method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form}}
-    </form>
+    <div class="hidden audio-source" data-base-url="{% url 'saywhat' %}" >
+        <label for="id_words">Say What?</label><input id="id_words" type="text"></input>
+    </div>
 {% endblock %}
 {% block page_style %}
     <style type="text/css">
+        label {
+            width: 8em;
+            display: inline-block;
+            text-align: right;
+        }
     </style>
 {% endblock %}
 {% block page_scripts %}
+<script src="{{STATIC_URL}}js/playword.js"></script>
+<script>
+$(document).ready( function() {
+    var word_widget = $('#id_words');
+    var audio_widget = $('.audio-source');
+    var base_url = audio_widget.attr('data-base-url');
+    var handle_change = function(event) {
+        var value = word_widget.val();
+        $.play_word(value,base_url);
+        event.preventDefault();
+        event.stopPropagation();
+        return true;
+    };
+    word_widget.change(handle_change);
+});
+</script>
 {% endblock %}

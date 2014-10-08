@@ -1,33 +1,24 @@
 {% extends 'master.html' %}
 {% block content %}
 <div class="word-list">
-    
+    {% for wordlist in wordlists %}
+    <div class="word-group {{wordlist.name}}" data-base-url="{% url 'saywhat' %}">
+        {% for word in wordlist.words %}
+            <div class="vocabulary-word">{{word}}</div>
+        {% endfor %}
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}
 {% block page_scripts %}
-<script src="./wordlists.json"></script>
 <script src="{{STATIC_URL}}js/playword.js"></script>
 <script>
-$(document).ready( function() {
-    var list = $('.word-list');
-    var render_wordlist = function( wordlist ) {
-        var group = $('<div class="word-group"></div>');
-        group.addClass( wordlist.name );
-        $.map( wordlist.words, function(word) {
-            var element = $('<div class="vocabulary-word"></div>').text( word );
-            element.click( function( evt ) {
-                $.play_word( word );
-            });
-            group.append( element );
-        });
-        return group;
-    };
-    var render_wordlists = function( data ) {
-        $.map( data.wordlists, function( wordlist ) {
-            list.append( render_wordlist( wordlist ));
-        });
-    };
-    render_wordlists(WORDLIST);
+var base_url = $('.word-group').attr('data-base-url');
+$('.vocabulary-word').each(function(evt){
+    var word = $(this);
+    word.click( function( evt ) {
+        $.play_word( word.text(), base_url);
+    });
 });
 </script>
 {% endblock %}

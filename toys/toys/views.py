@@ -46,15 +46,31 @@ def polygons( request ):
     return {
     }
 
+@render_to('toys/wordlist.html')
+@with_title('Sight Word List')
+def wordlist(request):
+    from . import sightwords
+    return {
+        'wordlists':sightwords.WORD_LISTS, 
+    }
+@render_to('toys/clickfast.html')
+@with_title('Click Fast')
+def wordlist(request):
+    from . import sightwords
+    return {
+        'wordlists':sightwords.WORD_LISTS, 
+    }
+
+
 @render_to( 'toys/saywhat.html' )
 @with_title('Say What?')
 def saywhat( request ):
-    form = None
-    if request.method == 'POST':
-        form = forms.GenerateText(request.POST)
+    if request.GET or request.POST:
+        form = forms.GenerateText(request.GET or request.POST)
         if form.is_valid():
             extension = form.cleaned_data.get('format')
             words = form.cleaned_data.get('words')
+            words = words[:120]
             key = '%s_%s'%(extension, hashlib.md5(words).hexdigest())
             content = AUDIO_CACHE.get( key )
             if not content:
@@ -68,7 +84,7 @@ def saywhat( request ):
                             '-w', temp,  
                             '-ven-us',
                             '-k5','-s150', '-z', 
-                            temp, 
+                            words, 
                     ]
                     subprocess.check_call(command)
                     if extension == 'mp3':
@@ -89,8 +105,5 @@ def saywhat( request ):
             else:
                 mime_type = 'audio/mpeg'
             return HttpResponse(content, content_type=mime_type)
-    if not form:
-        form = forms.GenerateText()
     return {
-        'form':form, 
     }

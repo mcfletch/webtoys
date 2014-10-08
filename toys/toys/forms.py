@@ -18,4 +18,5 @@ class GenerateText(forms.Form):
             ('mp3', 'MP3'), 
             ('ogg', 'OGG Vorbis'), 
         ], 
+        widget = widgets.HiddenInput(), 
     )
