@@ -32,6 +32,7 @@ if __name__ == "__main__":
                 'static/js/*',
                 'static/css/*',
                 'static/img/*',
+                'static/materialize/*', 
             ],
         },
         install_requires=[

@@ -11,6 +11,7 @@ from webtoys.options import get_boolean,get_string,get_float
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+PRODUCT_DIR = os.path.join('/opt', 'webtoys', 'current')
 
 VAR_DIR = '/var/webtoys'
 
@@ -80,7 +81,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join( VAR_DIR, 'www', 'static')
+STATIC_ROOT = os.path.join( PRODUCT_DIR, 'www', 'static')
 
 if DEBUG:
     TEMPLATE_LOADERS = [
@@ -108,9 +109,4 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(VAR_DIR,'django-cache'),
     }, 
-    'utterances': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': os.path.join(VAR_DIR,'utterances-cache'),
-    }, 
-    
 }
