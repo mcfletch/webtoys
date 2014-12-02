@@ -106,11 +106,11 @@ TEMPLATE_CONTEXT_PROCESSORS = [
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/var/webtoys/django-cache',
+        'LOCATION': os.path.join(VAR_DIR,'django-cache'),
     }, 
     'utterances': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/var/webtoys/utterances-cache',
+        'LOCATION': os.path.join(VAR_DIR,'utterances-cache'),
     }, 
     
 }
