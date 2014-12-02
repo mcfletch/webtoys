@@ -1,7 +1,9 @@
 {% extends 'master.html' %}
 {% block content %}
-<input class="filter" type="text" />
+<div class="container">
+<input class="filter" placeholder="Root word" type="text" />
 <div class="word-list audio-source" data-base-url="{% url 'saywhat' %}">
+</div>
 </div>
 
 {% endblock %}
@@ -38,14 +40,14 @@ $(document).ready( function() {
         var value = filter_entry.val();
         list.empty();
         if (!value.length) {
-            list.append( $('<div class="no-filter">Choose a root word</div>'));
+            list.append( $('<div class="no-filter">Type a word to see the words within it.</div>'));
         } else {
-            var matches = matching_words( $('.filter').val() );
+            var matches = matching_words( $('.filter').val().toLowerCase() );
             if (!matches.length) {
                 list.append( $('<div class="no-matches">No words found in that root</div>'));
             } else {
                 $.map( matches, function( word ) {
-                    var line = $('<div class="match"><span class="vocabulary-word"></span><i class="define fa fa-question"></i></div>');
+                    var line = $('<div class="match"><span class="vocabulary-word waves-effect waves-light btn"></span><i class="define fa fa-question"></i></div>');
                     line.find('.vocabulary-word').text(word).click( function(evt) {
                         $.play_word( word, base_url );
                     });
@@ -82,16 +84,7 @@ $(document).ready( function() {
         background-color: red;
         color: white;
     }
-    .match {
-        width: 12em;
-    }
     .define {
-    }
-    input.filter {
-        width: 10em;
-    }
-    .word-list {
-        width: 10em;
     }
     .word-list.prefix {
         text-align: left;

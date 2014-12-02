@@ -1,41 +1,29 @@
 body {
-    padding-top: 30px;
     padding-left: 0;
     padding-right: 0;
     padding-bottom: 0;
     margin: 0;
-    font-family: "Open Sans";
     background-color: #f0f0f0;
+    overflow-x: hidden;
 }
-.location-bar {
-    position: relative;
-    top: -30px;
-    line-height: 30px;
-    font-size: 20px;
-    padding-top: 1px;
-    padding-bottom: 1px;
-    padding-left: 3px;
-    padding-right: 3px;
-    margin-left: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-top: 0;
-    margin-after: 0;
-    background-color: black;
-    color: white;
+nav {
+    background-color: #f00000;
+    color: #f7f7f7;
+    font-weight: lighter;
+}
+.location-bar .brand-logo {
+    left: 3px;
+}
+.location-bar .brand-logo a {
+    color: #f7fff7;
+    font-weight: bold;
+}
+.location-bar .brand-logo a:hover {
+    color: #ffffff;
 }
 a {
     text-decoration: none;
     color: blue;
-}
-a:hover {
-    color: cyan;
-}
-.location-bar a {
-    color: cyan;
-}
-.location-bar a:hover {
-    color: white;
 }
 
 .selected.power {

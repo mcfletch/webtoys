@@ -1,12 +1,23 @@
 {% extends 'master.html' %}
 {% block content %}
+<div class="container">
 <ul>
-    <li><label for="prefix">Prefix</label><input id="prefix" value="prefix" name="fix" type="radio" /></li>
-    <li><label for="anyfix">Anywhere</label><input id="anyfix" value="anyfix" name="fix" type="radio" /></li>
-    <li><label for="suffix">Suffix</label><input id="suffix" value="suffix" name="fix" type="radio" CHECKED /></li>
+    <li>
+        <input id="prefix" value="prefix" name="fix" type="radio" />
+        <label for="prefix">Prefix</label>
+    </li>
+    <li>
+        <input id="anyfix" value="anyfix" name="fix" type="radio" />
+        <label for="anyfix">Anywhere</label>
+    </li>
+    <li>
+        <input id="suffix" value="suffix" name="fix" type="radio" CHECKED />
+        <label for="suffix">Suffix</label>
+    </li>
 </ul>
-<input class="filter" type="text" />
+<input placeholder="Search text" id="filter-text" class="filter input-field" type="text" />
 <div class="word-list audio-source" data-base-url="{% url 'saywhat' %}">
+</div>
 </div>
 {% endblock %}
 {% block page_scripts %}
@@ -54,14 +65,15 @@ $(document).ready( function() {
         var value = filter_entry.val();
         list.empty();
         if (!value.length) {
-            list.append( $('<div class="no-filter">Choose a filter</div>'));
+            list.append( $('<div class="no-filter">Type a word to find the words inside it</div>'));
         } else {
-            var matches = matching_words( $('.filter').val() );
+            var matches = matching_words( $('.filter').val().toLowerCase() );
             if (!matches.length) {
                 list.append( $('<div class="no-matches">No words found with that filter</div>'));
             } else {
-                $.map( matches, function( word ) {
-                
+                $.map( matches.slice(0,150), function( word ) {
+                    if (! word) { return; }
+                    
                     var line = $('<div class="match"><span class="vocabulary-word"></span><i class="define fa fa-question"></i></div>');
                     line.find('.vocabulary-word').text(word).click( function(evt) {
                         $.play_word( word, base_url );
@@ -100,13 +112,8 @@ $(document).ready( function() {
         color: white;
     }
     .match {
-        width: 12em;
-    }
-    input.filter {
-        width: 10em;
     }
     .word-list {
-        width: 10em;
     }
     .word-list.prefix {
         text-align: left;

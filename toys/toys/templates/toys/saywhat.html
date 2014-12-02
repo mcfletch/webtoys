@@ -1,16 +1,13 @@
 {% extends 'master.html' %}
 {% block content %}
+    <div class="container">
     <div class="hidden audio-source" data-base-url="{% url 'saywhat' %}" >
-        <label for="id_words">Say What?</label><input id="id_words" type="text"></input>
+        <input id="id_words" placeholder="Type something here and hit enter" type="text"></input>
+    </div>
     </div>
 {% endblock %}
 {% block page_style %}
     <style type="text/css">
-        label {
-            width: 8em;
-            display: inline-block;
-            text-align: right;
-        }
     </style>
 {% endblock %}
 {% block page_scripts %}

@@ -4,7 +4,7 @@
     {% for wordlist in wordlists %}
     <div class="word-group {{wordlist.name}}" data-base-url="{% url 'saywhat' %}">
         {% for word in wordlist.words %}
-            <div class="vocabulary-word">{{word}}</div>
+            <div class="vocabulary-word waves-effect waves-light btn">{{word}}</div>
         {% endfor %}
     </div>
     {% endfor %}

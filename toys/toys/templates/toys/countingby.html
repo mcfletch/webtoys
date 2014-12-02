@@ -2,7 +2,7 @@
 {% block content %}
     <div id="counting-by-holder" {% if per_row %}data-per-row="{{per_row}}"{%endif%}>
     </div>
-    <div class="instructions">
+    <div class="container instructions">
         <ul>
         <li>When you click a number, you'll see green squares that show you how to 
         &quot;count by&quot; that number. So, for instance, if you select 10, you will
@@ -23,7 +23,7 @@
 {% block page_style %}
     <style type="text/css">
         .group-view {
-            width: 99%;
+            width: 100%;
         }
         .number-block {
             font-size: large;
@@ -51,6 +51,9 @@
         .selected {
             background-color: black;
             color: white;
+        }
+        td,th {
+            padding: 5px 5px;
         }
     </style>
 {% endblock %}

@@ -5,8 +5,8 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="{{STATIC_URL}}/materialize/css/materialize.min.css"  media="screen,projection"/>
     {% block page_style %}
     {% endblock %}
     <title>{% block headertitle %}{{title|default:"WebToys"}}{%endblock%}</title>
@@ -17,15 +17,18 @@
   </head>
 <body>
 {% block header %}
+<nav>
 <div class="location-bar">
-    <a href="../">Web Toys</a> {{title}}
+    <div class="brand-logo" ><a href="../">Web Toys</a> {{title}}</div>
 </div>
+</nav>
 {% endblock %}
 {% block content %}
 {% endblock %}
 <div class="scripts">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.11.2/react.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}materialize/js/materialize.min.js"></script>
     {% block page_scripts %}
     {% endblock %}
 </div>

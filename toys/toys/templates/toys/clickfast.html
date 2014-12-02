@@ -129,7 +129,8 @@ $(document).ready( function() {
                 evt.preventDefault();
                 return false;
             });
-            word_choices.append( button );
+            var wrapper = $('<div />').append(button);
+            word_choices.append( wrapper );
         });
         $.play_word( state.round.word, base_url );
     };
@@ -179,7 +180,6 @@ $(document).ready( function() {
     }
     .word-choices button {
         font-size: 3em;
-        width: 20em;
         display: inline-block;
     }
     .controls {

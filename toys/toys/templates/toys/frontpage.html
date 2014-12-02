@@ -1,5 +1,6 @@
 {% extends 'master.html' %}
 {% block content %}
+<div class="container">
 <ul>
 <li><a href="{% url 'countingby' %}">Counting By</a> click numbers to see counting-by that number</li>
 <!--<li><a href="./polygons/shapenums.html">Grouped Numbers</a> numbers 0:100 as groups-of-groups-of 10, the same shape is applied to the overall cluster of 10s as to the individual numbers within the 10s</li>-->
@@ -14,6 +15,7 @@
 <li><a href="{% url 'subwords' %}">Sub Words</a> Type in word-fragments to see words that contain that word-fragment (note: will load slowly due to the large word-list)</li>
 <li><a href="{% url 'innerwords' %}">Inner Words</a> Type a word to see the words inside it  (note: will load slowly due to the large word-list)</li>
 </ul>
+</div>
 {% endblock %}
 {% block page_scripts %}
 {% endblock %}
