@@ -15,7 +15,7 @@
         <label for="suffix">Suffix</label>
     </li>
 </ul>
-<input placeholder="Search text" id="filter-text" class="filter input-field" type="text" />
+<input placeholder="Type your search here" id="filter-text" class="filter input-field" type="text" />
 <div class="word-list audio-source" data-base-url="{% url 'saywhat' %}">
 </div>
 </div>
@@ -65,7 +65,7 @@ $(document).ready( function() {
         var value = filter_entry.val();
         list.empty();
         if (!value.length) {
-            list.append( $('<div class="no-filter">Type a word to find the words inside it</div>'));
+            list.append( $('<div class="no-filter">Type a word-fragment to find words that use it</div>'));
         } else {
             var matches = matching_words( $('.filter').val().toLowerCase() );
             if (!matches.length) {

@@ -112,7 +112,7 @@ var PowerDisplay = React.createClass( {
         return RD.div({
             'className': 'powers-view',
         },
-            RD.div({"className":'number-form'},
+            RD.div({"className":'number-form container'},
                 input,
                 " in base ",
                 power

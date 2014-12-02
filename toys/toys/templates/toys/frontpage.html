@@ -1,25 +1,81 @@
 {% extends 'master.html' %}
 {% block content %}
 <div class="container">
-<ul>
-<li><a href="{% url 'countingby' %}">Counting By</a> click numbers to see counting-by that number</li>
-<!--<li><a href="./polygons/shapenums.html">Grouped Numbers</a> numbers 0:100 as groups-of-groups-of 10, the same shape is applied to the overall cluster of 10s as to the individual numbers within the 10s</li>-->
-<li><a href="{% url 'multiplefactors' %}">Multiple Factors</a> shows factors and multiples for the clicked number</li>
-<li><a href="{% url 'powersten' %}">Powers Ten</a> enter/scroll in number field to see decimal values displayed as collections of 1s, 10s, 100s, up to 999,999</li>
-<li><a href="{% url 'polygons' %}">Polygons</a> click numbers to see polygons with that number of sides
-(note, this toy requires SVG support in the browser)</li>
-
-<li><a href="{% url 'saywhat' %}">Say What</a> type words/sentences and hear them read out</li>
-<li><a href="{% url 'wordlist' %}">Word List</a> SK wordlist with click-to-say (computer voice currently)</li>
-<li><a href="{% url 'clickfast' %}">Click Fast</a> Click on the spoken words</li>
-<li><a href="{% url 'subwords' %}">Sub Words</a> Type in word-fragments to see words that contain that word-fragment (note: will load slowly due to the large word-list)</li>
-<li><a href="{% url 'innerwords' %}">Inner Words</a> Type a word to see the words inside it  (note: will load slowly due to the large word-list)</li>
-</ul>
+    <div class="row">
+    <div class="col s12 m6">
+        <div class="card">
+            <div class="card-title"><h4>Skip Counting</h4></div>
+            <div class="card-content">
+                <div>5, 10, 15, 20, ...</div>
+                <div>2, 4, 6, 8, ...</div>
+            </div>
+            <div class="card-action">
+                <a href="{% url 'countingby' %}">Counting By</a>
+                <a href="{% url 'multiplefactors' %}">Multiple Factors</a>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m6">
+        <div class="card">
+            <div class="card-title"><h4>Numbers</h4></div>
+            <div class="card-content">
+                <div>Numbers, decimal places, polygons</div>
+            </div>
+            <div class="card-action">
+                <a href="{% url 'powersten' %}">Powers Ten</a>
+                <a href="{% url 'polygons' %}">Polygons</a>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col s12 m6">
+        <div class="card">
+            <div class="card-title"><h4>Say What?</h4></div>
+            <div class="card-content">
+                <div>Type phrases for the computer to read out</div>
+            </div>
+            <div class="card-action">
+                <a href="{% url 'saywhat' %}">Say What</a>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m6">
+        <div class="card">
+            <div class="card-title"><h4>Sight Words</h4></div>
+            <div class="card-content">
+                <div>Listen to sight words</div>
+                <div>Identify sight words</div>
+            </div>
+            <div class="card-action">
+                <a href="{% url 'wordlist' %}">Word List</a>
+                <a href="{% url 'clickfast' %}">Click Fast</a>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col s12 m6">
+        <div class="card">
+            <div class="card-title"><h4>Words in Words</h4></div>
+            <div class="card-content">
+                <div>Find words by prefix, infix or suffix</div>
+                <div>Find words within longer words</div>
+            </div>
+            <div class="card-action">
+                <a href="{% url 'subwords' %}">Sub Words</a>
+                <a href="{% url 'innerwords' %}">Inner Words</a>
+            </div>
+        </div>
+    </div>
+    </div>
 </div>
 {% endblock %}
 {% block page_scripts %}
 {% endblock %}
 {% block page_style %}
     <style type="text/css">
+        .card {
+        }
     </style>
 {% endblock %}
