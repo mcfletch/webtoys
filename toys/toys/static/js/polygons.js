@@ -86,18 +86,12 @@ var PolygonRender = React.createClass( {
         }
         return RD.div({},
             RD.div({}, label ),
-            RD.div({},NumberChoice({
-                min:1,
-                max:100,
-                get_value: function() { return store.number; },
-                set_value: store.set_number.bind(store),
-                store:this.props.store
-            })),
             RD.svg({
                 'className':'polygon',
                 'viewBox':"-1.05 -1.05 2.1 2.1",
                 'preserveAspectRatio':"xMidYMid slice",
-                'height': '400px'
+                'height': '300px',
+                'width': '300px'
             },
                 RD.polygon({
                     'fill':'yellow',
@@ -105,6 +99,16 @@ var PolygonRender = React.createClass( {
                     'strokeWidth': '.01',
                     'points': point_attr,
                 })
+            ),
+            RD.div({'className':'card-action'},
+                NumberChoice({
+                    min:1,
+                    max:100,
+                    get_value: function() { return store.number; },
+                    set_value: store.set_number.bind(store),
+                    store:this.props.store
+                }),
+                RD.label({},'Choose number of points')
             )
         );
     }
@@ -114,6 +118,7 @@ var PolygonRender = React.createClass( {
 $(document).ready( function() {
     var tree_holder = document.getElementById('polygon-holder');
     var counting_store = PolygonStorage();
+    counting_store.set_number(4);
     var number_display = React.renderComponent( 
         PolygonRender({
             store: counting_store,

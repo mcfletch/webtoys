@@ -1,14 +1,23 @@
 {% extends 'master.html' %}
 {% block content %}
-    <div id="polygon-holder">
+    <div class="container">
+    <div class="card">
+        <div class="card-content">
+            <div id="polygon-holder">
+            </div>
+        </div>
     </div>
     <div class="instructions">
         <ul>
         </ul>
     </div>
+    </div>
 {% endblock %}
 {% block page_style %}
     <style type="text/css">
+        .card {
+            display: inline-block;
+        }
     </style>
 {% endblock %}
 {% block page_scripts %}
