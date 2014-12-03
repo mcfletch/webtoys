@@ -150,6 +150,7 @@ def django_collectstatic( ):
         sudo( 'mkdir -p /opt/%(product)s/current/www/static'%locals())
     django_sudo( 'collectstatic', '--clear', '--noinput' )
     django_sudo( 'assets', 'build', '--parse-templates' )
+    sudo('chmod -R go+r /opt/%(product)s/current/www/static'%locals())
 
 def backup_current():
     product = env.product_dir

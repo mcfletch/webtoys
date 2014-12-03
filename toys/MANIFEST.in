@@ -1,6 +1,6 @@
 recursive-include toys/static/js *.js
 recursive-include toys/static/img *.png *.jpg *.gif *.ico
 recursive-include toys/static/css *.css 
-recursive-include toys/materialize/ * 
+recursive-include toys/static/materialize * 
 recursive-include toys/templates *
 recursive-include toys/fixtures *

@@ -26,6 +26,13 @@ DEBUG = get_boolean( 'django','debug', False )
 TEMPLATE_DEBUG = DEBUG
 ASSETS_DEBUG = DEBUG
 
+EMAIL_HOST = 'mail.vex.net'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mcfletc2'
+EMAIL_HOST_PASSWORD = get_string('email','password', None)
+EMAIL_USE_TLS = True
+assert EMAIL_HOST_PASSWORD,  "You didn't specify an [email]\npassword=... key in the /etc/webtoys/*.conf"
+
 ALLOWED_HOSTS = [
     get_string( 'django','allowed_hosts','webtoys.vrplumber.com'),
 ]
@@ -106,6 +113,10 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(VAR_DIR,'django-cache'),
+    }, 
+    'utterances': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(VAR_DIR,'utterances-cache'),
     }, 
 }
 
