@@ -5,3 +5,4 @@ build
 wordlists/sounds
 wordlists/badwords.txt
 wordlists/dictionary.txt
+dist
