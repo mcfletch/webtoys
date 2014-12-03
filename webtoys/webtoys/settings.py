@@ -27,10 +27,8 @@ TEMPLATE_DEBUG = DEBUG
 ASSETS_DEBUG = DEBUG
 
 ALLOWED_HOSTS = [
-    '*', 
     get_string( 'django','allowed_hosts','webtoys.vrplumber.com'),
 ]
-
 
 INSTALLED_APPS = (
     'toys',
@@ -109,4 +107,46 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(VAR_DIR,'django-cache'),
     }, 
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'formatters': {
+        'standard': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%Y-%m-%d %H:%M:%S"
+        },
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'logfile': {
+            'level': 'WARN',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(VAR_DIR, 'log', 'django.log'),
+            'maxBytes': 1024*1024,
+            'backupCount': 2,
+            'formatter': 'standard',
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        '': {
+            'level': 'DEBUG',
+            'handlers': ['logfile'],
+        },
+    }
 }
