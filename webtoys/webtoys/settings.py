@@ -14,6 +14,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PRODUCT_DIR = os.path.join('/opt', 'webtoys', 'current')
 
 VAR_DIR = '/var/webtoys'
+LOG_DIR = os.path.join( VAR_DIR, 'log')
 
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
@@ -143,7 +144,7 @@ LOGGING = {
         'logfile': {
             'level': 'WARN',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(VAR_DIR, 'log', 'django.log'),
+            'filename': os.path.join(LOG_DIR, 'django.log'),
             'maxBytes': 1024*1024,
             'backupCount': 2,
             'formatter': 'standard',
@@ -161,3 +162,5 @@ LOGGING = {
         },
     }
 }
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR, 0755)
