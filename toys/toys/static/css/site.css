@@ -84,3 +84,7 @@ a {
 .templates {
     display: none;
 }
+
+input.huge-input[type=text] {
+    font-size: 200%;
+}

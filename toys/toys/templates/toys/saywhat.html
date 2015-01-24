@@ -2,12 +2,21 @@
 {% block content %}
     <div class="container">
     <div class="hidden audio-source" data-base-url="{% url 'saywhat' %}" >
-        <input id="id_words" placeholder="Type something here and hit enter" type="text"></input>
+        <input class="huge-input" id="id_words" placeholder="Type something here and hit enter" type="text"></input>
+        <button type="button" class="play-button"><i class="fa fa-play"></i></button>
     </div>
+    <ul class="previous">
+    </ul>
     </div>
 {% endblock %}
 {% block page_style %}
     <style type="text/css">
+        input.huge-input[type=text] {
+            width: 95%;
+        }
+        button.play-button {
+            width: 4.5%;
+        }
     </style>
 {% endblock %}
 {% block page_scripts %}
@@ -16,15 +25,35 @@
 $(document).ready( function() {
     var word_widget = $('#id_words');
     var audio_widget = $('.audio-source');
+    var play_button = $('.play-button');
+    var previous = $('.previous');
     var base_url = audio_widget.attr('data-base-url');
+    var add_previous = function(utterance) {
+        var holder = $('<li><a href="#"></a></li>');
+        var link = holder.find('a');
+        holder.addClass('utterance');
+        link.text(utterance);
+        link.click(function(event) {
+            word_widget.val(utterance);
+            event.preventDefault();
+            event.stopPropagation();
+            return true;
+        });
+        link.hide();
+        previous.prepend(holder);
+        link.fadeIn(500);
+    };
     var handle_change = function(event) {
         var value = word_widget.val();
         $.play_word(value,base_url);
+        add_previous(value);
+        word_widget.val('');
         event.preventDefault();
         event.stopPropagation();
         return true;
     };
     word_widget.change(handle_change);
+    play_button.click(handle_change);
     word_widget.focus();
 });
 </script>
