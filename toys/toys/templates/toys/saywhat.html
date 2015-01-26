@@ -29,7 +29,7 @@ $(document).ready( function() {
     var previous = $('.previous');
     var base_url = audio_widget.attr('data-base-url');
     var add_previous = function(utterance) {
-        var holder = $('<li><a href="#"></a></li>');
+        var holder = $('<li><a title="Click to put this text in the editing box" href="#"></a></li>');
         var link = holder.find('a');
         holder.addClass('utterance');
         link.text(utterance);
@@ -45,8 +45,10 @@ $(document).ready( function() {
     };
     var handle_change = function(event) {
         var value = word_widget.val();
-        $.play_word(value,base_url);
-        add_previous(value);
+        if (value.trim().length) {
+            $.play_word(value,base_url);
+            add_previous(value);
+        }
         word_widget.val('');
         event.preventDefault();
         event.stopPropagation();
