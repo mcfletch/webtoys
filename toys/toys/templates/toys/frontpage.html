@@ -3,68 +3,82 @@
 <div class="container">
     <div class="row">
     <div class="col s12 m6">
-        <div class="card">
+        <div class="card" data-url="{% url 'countingby' %}">
             <div class="card-title"><h4>Skip Counting</h4></div>
             <div class="card-content">
                 <div>5, 10, 15, 20, ...</div>
                 <div>2, 4, 6, 8, ...</div>
             </div>
-            <div class="card-action">
-                <a href="{% url 'countingby' %}">Counting By</a>
-                <a href="{% url 'multiplefactors' %}">Multiple Factors</a>
+        </div>
+    </div>
+    <div class="col s12 m6">
+        <div class="card" data-url="{% url 'multiplefactors' %}">
+            <div class="card-title"><h4>Multiple Factors</h4></div>
+            <div class="card-content">
+                <div>40 = 4 x 10</div>
+                <div>12 = 3 x 4</div>
             </div>
         </div>
     </div>
     <div class="col s12 m6">
-        <div class="card">
-            <div class="card-title"><h4>Numbers</h4></div>
+        <div class="card" data-url="{% url 'powersten' %}">
+            <div class="card-title"><h4>Powers Ten</h4></div>
             <div class="card-content">
-                <div>Numbers, decimal places, polygons</div>
+                <div>Decimal Number system</div>
             </div>
-            <div class="card-action">
-                <a href="{% url 'powersten' %}">Powers Ten</a>
-                <a href="{% url 'polygons' %}">Polygons</a>
+        </div>
+    </div>
+    <div class="col s12 m6">
+        <div class="card" data-url="{% url 'polygons' %}">
+            <div class="card-title"><h4>Polygons</h4></div>
+            <div class="card-content">
+                <div>Triangle, Diamond, Pentagon, ...</div>
             </div>
         </div>
     </div>
     </div>
     <div class="row">
     <div class="col s12 m6">
-        <div class="card">
+        <div class="card" data-url="{% url 'saywhat' %}">
             <div class="card-title"><h4>Say What?</h4></div>
             <div class="card-content">
                 <div>Type phrases for the computer to read out</div>
             </div>
-            <div class="card-action">
-                <a href="{% url 'saywhat' %}">Say What</a>
-            </div>
         </div>
     </div>
     <div class="col s12 m6">
-        <div class="card">
+        <div class="card" data-url="{% url 'wordlist' %}">
             <div class="card-title"><h4>Sight Words</h4></div>
             <div class="card-content">
                 <div>Listen to sight words</div>
-                <div>Identify sight words</div>
-            </div>
-            <div class="card-action">
-                <a href="{% url 'wordlist' %}">Word List</a>
-                <a href="{% url 'clickfast' %}">Click Fast</a>
             </div>
         </div>
     </div>
     </div>
     <div class="row">
     <div class="col s12 m6">
-        <div class="card">
-            <div class="card-title"><h4>Words in Words</h4></div>
+        <div class="card" data-url="{% url 'clickfast' %}">
+            <div class="card-title"><h4>Click Fast</h4></div>
             <div class="card-content">
-                <div>Find words by prefix, infix or suffix</div>
-                <div>Find words within longer words</div>
+                <div>Identify sight words</div>
             </div>
-            <div class="card-action">
-                <a href="{% url 'subwords' %}">Sub Words</a>
-                <a href="{% url 'innerwords' %}">Inner Words</a>
+        </div>
+    </div>
+    <div class="col s12 m6">
+        <div class="card" data-url="{% url 'subwords' %}">
+            <div class="card-title"><h4>Sub Words</h4></div>
+            <div class="card-content">
+                <div>Find words that start with, end with or contain your word</div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col s12 m6">
+        <div class="card" data-url="{% url 'innerwords' %}">
+            <div class="card-title"><h4>Inner Words</h4></div>
+            <div class="card-content">
+                <div>Find words within long words</div>
             </div>
         </div>
     </div>
@@ -72,10 +86,19 @@
 </div>
 {% endblock %}
 {% block page_scripts %}
+<script>
+    $('.card').each(function() {
+        var card = $(this);
+        card.click(function(evt) {
+            window.location.href = card.attr('data-url');
+        });
+    });
+</script>
 {% endblock %}
 {% block page_style %}
     <style type="text/css">
         .card {
+            cursor: pointer;
         }
     </style>
 {% endblock %}
