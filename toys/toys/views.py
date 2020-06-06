@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from toys import forms
 log = logging.getLogger( __name__ )
 
-AUDIO_CACHE = _cache.get_cache('utterances')
+AUDIO_CACHE = _cache.caches['utterances']
 
 def with_title( title ):
     def wrapper(function):
@@ -79,7 +79,7 @@ def saywhat( request ):
             extension = form.cleaned_data.get('format')
             words = form.cleaned_data.get('words')
             words = words[:120]
-            key = '%s_%s'%(extension, hashlib.md5(words).hexdigest())
+            key = '%s_%s'%(extension, hashlib.md5(words.encode('utf-8')).hexdigest())
             content = AUDIO_CACHE.get( key )
             if not content:
                 temp_dir = tempfile.mkdtemp(prefix='utterance')
@@ -102,7 +102,7 @@ def saywhat( request ):
                     if os.path.exists( final ):
                         os.remove( final )
                     subprocess.check_call( [
-                        'avconv', '-i', temp] + extra_args + [final],
+                        'ffmpeg', '-i', temp] + extra_args + [final],
                     )
                     content = open(final, 'rb').read()
                     AUDIO_CACHE.set( key,  content )

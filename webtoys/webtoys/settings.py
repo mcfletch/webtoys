@@ -1,13 +1,3 @@
-"""
-Django settings for webtoys project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
-"""
-from webtoys.options import get_boolean,get_string,get_float
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -16,26 +6,28 @@ PRODUCT_DIR = os.path.join('/opt', 'webtoys', 'current')
 VAR_DIR = '/var/webtoys'
 LOG_DIR = os.path.join( VAR_DIR, 'log')
 
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_string( 'django','secret_key')
-assert SECRET_KEY, """You didn't set up a /etc/webtoys/secretkey.conf with [django]\nsecret_key=..."""
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+assert SECRET_KEY,'You have not specified a DJANGO_SECRET_KEY'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_boolean( 'django','debug', False )
+DEBUG = os.environ.get('DJANGO_DEBUG','False') in ('True','true','1')
 TEMPLATE_DEBUG = DEBUG
 ASSETS_DEBUG = DEBUG
 
-EMAIL_HOST = 'mail.vex.net'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'mcfletc2'
-EMAIL_HOST_PASSWORD = get_string('email','password', None)
+DB_HOST = os.environ.get('DB_HOST','db')
+DB_PASSWORD = os.environ.get('DB_PASSWORD','')
+
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+assert EMAIL_HOST_PASSWORD, 'You have not specified an EMAIL_PASSWORD'
 EMAIL_USE_TLS = True
-assert EMAIL_HOST_PASSWORD,  "You didn't specify an [email]\npassword=... key in the /etc/webtoys/*.conf"
 
 ALLOWED_HOSTS = [
-    get_string( 'django','allowed_hosts','webtoys.vrplumber.com'),
+    'webtoys.vrplumber.com',
+    'webtoys2.vrplumber.com',
+    'localhost',
 ]
 
 INSTALLED_APPS = (
@@ -46,19 +38,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'south',
-    'django_nose',
-    'django_assets',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 )
 
 ROOT_URLCONF = 'webtoys.urls'
@@ -69,6 +56,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'webtoys',
+        'USER': 'mcfletch',
+        'PASSWORD': DB_PASSWORD,
+        'HOST': DB_HOST,
+        'PORT': '',
     }
 }
 
@@ -87,27 +78,34 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join( PRODUCT_DIR, 'www', 'static')
+STATIC_ROOT = '/var/webtoys/static'
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
 
-if DEBUG:
-    TEMPLATE_LOADERS = [
-        'django.template.loaders.app_directories.Loader',
-    ]
-else:
-    TEMPLATE_LOADERS = [
-        ('django.template.loaders.cached.Loader', (
-            'django.template.loaders.app_directories.Loader',
-        )),
-    ]
-
-TEMPLATE_CONTEXT_PROCESSORS = [
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.request',
-    'django.contrib.auth.context_processors.auth',
-    'django.contrib.messages.context_processors.messages',    
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'OPTIONS': {
+            # ... some options here ...
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.request',
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+            ],
+            'loaders': [
+                'apptemplates.Loader', 
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+            ],
+        },
+    },
 ]
 
 CACHES = {
@@ -141,14 +139,10 @@ LOGGING = {
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         },
-        'logfile': {
-            'level': 'WARN',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOG_DIR, 'django.log'),
-            'maxBytes': 1024*1024,
-            'backupCount': 2,
-            'formatter': 'standard',
-        }
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
     },
     'loggers': {
         'django.request': {
@@ -158,9 +152,10 @@ LOGGING = {
         },
         '': {
             'level': 'DEBUG',
-            'handlers': ['logfile'],
+            'handlers': ['console'],
         },
     }
 }
 if not os.path.exists(LOG_DIR):
-    os.makedirs(LOG_DIR, 0755)
+    os.makedirs(LOG_DIR, 0o755)
+

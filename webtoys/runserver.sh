@@ -1,3 +1,3 @@
 #! /bin/bash
 
-./manage.py runserver 0.0.0.0:8089
+DEBUG=True django-admin runserver --settings=webtoys.settings --insecure 8000

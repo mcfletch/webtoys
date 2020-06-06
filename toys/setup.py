@@ -22,7 +22,6 @@ if __name__ == "__main__":
         include_package_data=True,
         license='MIT',
         # Dev-only requirements:
-        # nose
         # pychecker
         # coverage
         # globalsub
@@ -40,7 +39,6 @@ if __name__ == "__main__":
         install_requires=[
             'django',
             'django-annoying',
-            'south',
         ],
         scripts = [
         ],
