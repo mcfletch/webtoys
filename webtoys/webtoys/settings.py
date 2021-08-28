@@ -27,6 +27,7 @@ EMAIL_USE_TLS = True
 ALLOWED_HOSTS = [
     'webtoys.vrplumber.com',
     'webtoys2.vrplumber.com',
+    '192.168.15.22',
     'localhost',
 ]
 
